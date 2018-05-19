@@ -30,10 +30,10 @@ namespace KeyKeeper.World
             _fov = new FieldOfView(this);
         }
 
-        // TODO: Return GameResult
-        public void Update(int depth)
+        public void ComputeFov(int x, int y, int depth, int radius, FovType type)
         {
-            // update actors
+            _fov.ClearFov();
+            _fov.Compute(x, y, depth, radius, type);
         }
 
         public GameLevel GetLevel(int depth)

@@ -42,8 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Action\ActionResult.cs" />
     <Compile Include="Entities\Creature.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Hero.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Prop.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
@@ -52,11 +54,14 @@
     <Compile Include="Helpers\FieldOfView.cs" />
     <Compile Include="Helpers\Line.cs" />
     <Compile Include="Helpers\Pool.cs" />
+    <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="KeyKeeper.cs" />
     <Compile Include="Input\Controls.cs" />
     <Compile Include="Input\DelayedInputHandler.cs" />
     <Compile Include="Input\InputEventArgs.cs" />
+    <Compile Include="Managers\CreatureManager.cs" />
+    <Compile Include="Managers\EnergyManager.cs" />
     <Compile Include="Managers\GameManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
