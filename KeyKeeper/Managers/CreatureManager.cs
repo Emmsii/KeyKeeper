@@ -12,16 +12,26 @@ namespace KeyKeeper.Managers
     public class CreatureManager
     {
         private int _currentCreatureIndex;
+        private int _currentTurn;
+        private int _currentSubTurn;
 
         private Creature CurrentCreature(List<Creature> creatures) => creatures[_currentCreatureIndex];
 
         public bool Running { get; set; } = true;
+        public int CurrentTurn { get { return _currentTurn; } }
+        public int CurrentSubTurn { get { return _currentSubTurn; } }
 
         public void UpdateCreatures(List<Creature> creatures)
         {
             while (Running)
             {
                 Creature creature = CurrentCreature(creatures);
+
+                if(creature is Hero)
+                {
+                    _currentTurn++;
+                    _currentSubTurn = 0;
+                }
 
                 if (creature.CanTakeTurn && creature.NeedsInput) return; // gameresult
 

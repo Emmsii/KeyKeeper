@@ -13,7 +13,7 @@ namespace KeyKeeper.Input
 
         public InputEventArgs(Keys key)
         {
-            Keys = key;
+            Key = key;
         }
     }
 }

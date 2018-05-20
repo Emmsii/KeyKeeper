@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KeyKeeper.World;
 using Microsoft.Xna.Framework;
 using MonoGame;
 
@@ -12,6 +13,9 @@ namespace KeyKeeper.Entities
     {
         private static int EntityCount = 0;
 
+        protected GameWorld _world;
+        public GameWorld World { get { return _world; } }
+
         public int ID { get; private set; }
 
         private Point _location = new Point();
@@ -19,6 +23,7 @@ namespace KeyKeeper.Entities
 
         public int X { get { return _location.X; } set { _location.X = value; } }
         public int Y { get { return _location.X; } set { _location.X = value; } }
+        public int Depth { get; protected set; }
 
         public string Name { get {return _name; } protected set { _name = value; } }
 
@@ -35,9 +40,10 @@ namespace KeyKeeper.Entities
             _name = name;
         }
 
-        public void Init()
+        public void Init(GameWorld world)
         {
             ID = EntityCount++;
+            _world = world;
         }
 
         public void SetPosition(int x, int y, int z)

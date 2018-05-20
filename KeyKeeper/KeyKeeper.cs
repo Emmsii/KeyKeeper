@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using KeyKeeper.Input;
 using KeyKeeper.Managers;
+using System;
 
 namespace KeyKeeper
 {
@@ -16,7 +17,7 @@ namespace KeyKeeper
 
         private DelayedInputHandler _delayedInput = new DelayedInputHandler(20, 2);
 
-        private GameManager _gameManager = new GameManager();
+        private GameManager _gameManager;
 
         public KeyKeeper()
         {
@@ -28,12 +29,15 @@ namespace KeyKeeper
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            Console.WriteLine("Init");
+            _gameManager = new GameManager(Environment.TickCount);
+            _gameManager.Init();
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
+            Console.WriteLine("Load");
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 

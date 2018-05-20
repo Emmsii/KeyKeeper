@@ -12,6 +12,12 @@ namespace KeyKeeper.Entities
     public class Hero : Creature
     {
         private IAction _nextAction = null;
+
+        public Hero(Species species) : base(species)
+        {
+
+        }
+
         public override bool NeedsInput => _nextAction == null;
 
         public void Input(Keys key)

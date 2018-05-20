@@ -1,4 +1,5 @@
-﻿using KeyKeeper.Interfaces;
+﻿using KeyKeeper.Entities.AI;
+using KeyKeeper.Interfaces;
 using KeyKeeper.Managers;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Entities
 {
-    public abstract class Creature
+    public abstract class Creature : Entity
     {
+        private Species Species { get; }
+
+        private CreatureAi _ai;
+        public CreatureAi Ai { get { return _ai; } }
+
         private readonly EnergyManager _energyManager = new EnergyManager();
         private int _speed = EnergyManager.NORMAL_SPEED;
         public int Speed => _speed; // + species.BaseSpeed;
@@ -21,7 +27,32 @@ namespace KeyKeeper.Entities
         public bool GainEnergy => _energyManager.GainEnergy(Speed);
         public void FinishTurn() => _energyManager.Spend();
 
+        public bool HasMoved { get; private set; } = false;
+
+        public Creature(Species species) : base(species.Name)
+        {
+            Species = species;
+        }
+
         protected abstract IAction OnGetAction();
 
+        public bool MoveBy(int x, int y, int depth)
+        {
+            if (!_world.InBounds(X + x, Y + y, Depth + depth)) return false;
+            bool canMove = _ai.CanMove(X + x, Y + y, Depth + depth);
+            if (canMove)
+            {
+                X += x;
+                Y += y;
+                if (depth != 0) _world.SwitchCreatureLevel(this, Depth + depth);
+            }
+            HasMoved = canMove;
+            return HasMoved;
+        }
+
+        public void SetAi(CreatureAi ai)
+        {
+            _ai = ai;
+        }
     }
 }
