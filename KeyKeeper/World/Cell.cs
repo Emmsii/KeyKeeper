@@ -1,4 +1,5 @@
-﻿using KeyKeeper.Graphics;
+﻿using KeyKeeper.Entities;
+using KeyKeeper.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -10,22 +11,28 @@ namespace KeyKeeper.World
 {
     public class Cell
     {
-        public string Name { get; }
-        public Sprite Sprite { get; }
-        public Color ForegroundColor { get; }
-        public Color BackgroundColor { get; }
 
-        public bool IsSolid { get; }
-        public bool IsTransparent { get; }
+        public int X { get; }
+        public int Y { get; }
 
-        public Cell(Sprite sprite, string name, Color foregroundColor, Color backgroundColor, bool isSolid, bool isTransparent)
+        private readonly CellType _cellType;
+
+        public string Name { get { return _cellType.Name; } }
+        public Sprite Sprite { get { return _cellType.Sprite; } }
+        public Color ForegroundColor { get { return _cellType.ForegroundColor; } }
+        public Color BackgroundColor { get { return _cellType.BackgroundColor; } }
+
+        public bool IsSolid { get { return _cellType.IsSolid; } }
+        public bool IsTransparent { get { return _cellType.IsTransparent; } }
+
+        public Item Item { get; set; }
+        //public Prop Prop { get; set; }
+
+        public Cell(int x, int y, CellType type)
         {
-            Sprite = sprite;
-            Name = name;
-            ForegroundColor = foregroundColor;
-            BackgroundColor = backgroundColor;
-            IsSolid = isSolid;
-            IsTransparent = isTransparent;
+            X = x;
+            Y = y;
+            _cellType = type;
         }
     }
 }

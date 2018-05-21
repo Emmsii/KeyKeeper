@@ -31,7 +31,7 @@ namespace KeyKeeper.Managers
 
         public void Init()
         {
-            _gameWorld = new GameWorld(new EmptyLevelGenerator(32, 32, 1).Generate().Build());
+            _gameWorld = new WorldGenerator(32, 32, 1, _worldSeed).Generate().Build();
         }
 
         public void Input(Keys key)

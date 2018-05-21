@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Action\ActionResult.cs" />
     <Compile Include="Action\MoveAction.cs" />
+    <Compile Include="Content\Assets.cs" />
     <Compile Include="Entities\AI\CreatureAi.cs" />
     <Compile Include="Entities\Creature.cs" />
     <Compile Include="Entities\Entity.cs" />
@@ -54,13 +55,15 @@
     <Compile Include="Entities\Species.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Generators\BaseLevelGenerator.cs" />
-    <Compile Include="Generators\EmptyLevelGenerator.cs" />
+    <Compile Include="Generators\CaveLevelGenerator.cs" />
+    <Compile Include="Generators\WorldGenerator.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\Spritesheet.cs" />
     <Compile Include="Helpers\FieldOfView.cs" />
     <Compile Include="Helpers\Line.cs" />
     <Compile Include="Helpers\Pool.cs" />
     <Compile Include="Interfaces\IAction.cs" />
+    <Compile Include="Interfaces\IBuilder.cs" />
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="KeyKeeper.cs" />
     <Compile Include="Input\Controls.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="World\BaseMap.cs" />
     <Compile Include="World\Cell.cs" />
+    <Compile Include="World\CellType.cs" />
     <Compile Include="World\GameLevel.cs" />
     <Compile Include="World\GameWorld.cs" />
   </ItemGroup>

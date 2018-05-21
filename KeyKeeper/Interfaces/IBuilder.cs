@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KeyKeeper.Entities
+namespace KeyKeeper.Interfaces
 {
-    public class Item : Entity
+    public interface IBuilder<T>
     {
-        public Item(string name) : base(name)
-        {
-
-        }
+        T Build();
+        IBuilder<T> Generate();
     }
 }

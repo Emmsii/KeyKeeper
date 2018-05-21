@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using KeyKeeper.Input;
 using KeyKeeper.Managers;
 using System;
+using KeyKeeper.Content;
 
 namespace KeyKeeper
 {
@@ -29,18 +30,22 @@ namespace KeyKeeper
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Console.WriteLine("Init");
+
             _gameManager = new GameManager(Environment.TickCount);
-            _gameManager.Init();
+            
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            Console.WriteLine("Load");
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Assets.LoadAssets(Content);
+
+            
+
+            _gameManager.Init();
             // TODO: use this.Content to load your game content here
         }
 

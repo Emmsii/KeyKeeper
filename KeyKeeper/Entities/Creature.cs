@@ -13,12 +13,11 @@ namespace KeyKeeper.Entities
     {
         private Species Species { get; }
 
-        private CreatureAi _ai;
-        public CreatureAi Ai { get { return _ai; } }
+        public CreatureAi Ai { get; private set; }
 
         private readonly EnergyManager _energyManager = new EnergyManager();
         private int _speed = EnergyManager.NORMAL_SPEED;
-        public int Speed => _speed; // + species.BaseSpeed;
+        public int Speed => _speed + Species.BaseSpeed;
 
         public virtual bool NeedsInput { get; set; } = false;
         
@@ -39,7 +38,7 @@ namespace KeyKeeper.Entities
         public bool MoveBy(int x, int y, int depth)
         {
             if (!_world.InBounds(X + x, Y + y, Depth + depth)) return false;
-            bool canMove = _ai.CanMove(X + x, Y + y, Depth + depth);
+            bool canMove = Ai.CanMove(X + x, Y + y, Depth + depth);
             if (canMove)
             {
                 X += x;
@@ -52,7 +51,7 @@ namespace KeyKeeper.Entities
 
         public void SetAi(CreatureAi ai)
         {
-            _ai = ai;
+            Ai = ai;
         }
     }
 }
