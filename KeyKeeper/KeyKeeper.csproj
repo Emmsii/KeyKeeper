@@ -59,6 +59,7 @@
     <Compile Include="Generators\WorldGenerator.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\Spritesheet.cs" />
+    <Compile Include="Helpers\Dice.cs" />
     <Compile Include="Helpers\FieldOfView.cs" />
     <Compile Include="Helpers\Line.cs" />
     <Compile Include="Helpers\Pool.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Managers\ReplayManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screen\LevelScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="World\BaseMap.cs" />
     <Compile Include="World\Cell.cs" />

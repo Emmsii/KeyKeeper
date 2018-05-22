@@ -16,11 +16,14 @@ namespace KeyKeeper.Generators
 
         protected readonly IMap<Cell> _map;
 
-        public BaseLevelGenerator(int width, int height, int depth)
+        protected readonly Random _random;
+
+        public BaseLevelGenerator(int width, int height, int depth, Random random)
         {
             _width = width;
             _height = height;
             _depth = depth;
+            _random = random;
 
             _map = new BaseMap<Cell>(_width, _height);
         }

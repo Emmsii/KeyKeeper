@@ -109,7 +109,7 @@ namespace KeyKeeper.Helpers
                     float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
                     float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
 
-                    if(!(currentX >= 0 && currentY >= 0 && currentX < _world.CurrentLevelWidth(depth) && currentY < _world.CurrentLevelHeight(depth)) || start < rightSlope)
+                    if(!(currentX >= 0 && currentY >= 0 && currentX < _world.LevelWidth(depth) && currentY < _world.LevelHeight(depth)) || start < rightSlope)
                     {
                         continue;
                     }

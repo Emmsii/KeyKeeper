@@ -16,8 +16,8 @@ namespace KeyKeeper.World
 
         private Dictionary<int, List<Creature>> _creatures = new Dictionary<int, List<Creature>>();
 
-        public int CurrentLevelWidth(int depth) => GetLevel(depth).Width;
-        public int CurrentLevelHeight(int depth) => GetLevel(depth).Height;
+        public int LevelWidth(int depth) => GetLevel(depth).Width;
+        public int LevelHeight(int depth) => GetLevel(depth).Height;
         public int Depth => _levels.Length;
 
         public void SetExplored(int x, int y, int depth, bool isExplored) => GetLevel(depth).SetExplored(x, y, isExplored);

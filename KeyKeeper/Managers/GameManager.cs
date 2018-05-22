@@ -1,6 +1,9 @@
-﻿using KeyKeeper.Entities;
+﻿using KeyKeeper.Content;
+using KeyKeeper.Entities;
 using KeyKeeper.Generators;
+using KeyKeeper.Screen;
 using KeyKeeper.World;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -16,10 +19,12 @@ namespace KeyKeeper.Managers
         private readonly int _worldSeed;
                 
         private readonly CreatureManager _creatureManager = new CreatureManager();
-        private GameWorld _gameWorld;
-        private Hero _hero;
+        public GameWorld GameWorld { get; private set; }
+        public Hero Hero { get; private set; }
 
         public Random Random;
+
+        private LevelScreen _levelScreen;
 
         public GameManager(int gameSeed)
         {
@@ -27,11 +32,14 @@ namespace KeyKeeper.Managers
             Random = new Random(_gameSeed);
             _worldSeed = Random.Next();
 
+            _levelScreen = new LevelScreen(0, 0, 10, 10, 2, this);
         }
 
         public void Init()
         {
-            _gameWorld = new WorldGenerator(32, 32, 1, _worldSeed).Generate().Build();
+            GameWorld = new WorldGenerator(32, 32, 1, _worldSeed).Generate().Build();
+
+            Hero = new Hero(Assets.GetSpecies("hero"));
         }
 
         public void Input(Keys key)
@@ -41,7 +49,12 @@ namespace KeyKeeper.Managers
 
         public void Update()
         {
-            _creatureManager.UpdateCreatures(_gameWorld.GetCreatures(_hero.Depth));
+            _creatureManager.UpdateCreatures(GameWorld.GetCreatures(Hero.Depth));
+        }
+
+        public void Draw(SpriteBatch batch)
+        {
+            _levelScreen.Draw(batch);   
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KeyKeeper.Graphics;
 using KeyKeeper.World;
 using Microsoft.Xna.Framework;
 using MonoGame;
@@ -22,13 +23,13 @@ namespace KeyKeeper.Entities
         private Point Location { get { return _location; } }
 
         public int X { get { return _location.X; } set { _location.X = value; } }
-        public int Y { get { return _location.X; } set { _location.X = value; } }
+        public int Y { get { return _location.Y; } set { _location.Y = value; } }
         public int Depth { get; protected set; }
 
         public string Name { get {return _name; } protected set { _name = value; } }
 
         protected string _name;
-        //protected readonly Sprite _sprite;
+        protected readonly Sprite _sprite;
         private HashSet<string> _flags = new HashSet<string>();
 
         public bool AddFlag(string flag) => _flags.Add(flag);
