@@ -23,7 +23,7 @@ namespace KeyKeeper.World
         public void SetExplored(int x, int y, int depth, bool isExplored) => GetLevel(depth).SetExplored(x, y, isExplored);
 
         public bool InBounds(int x, int y, int depth) => GetLevel(depth).InBounds(x, y);
-        public bool IsTransparent(int x, int y, int depth) => throw new NotImplementedException();
+        public bool IsTransparent(int x, int y, int depth) => GetLevel(depth).GetCell(x, y).IsTransparent;
 
         public Cell GetCell(int x, int y, int depth) => GetLevel(depth).GetCell(x, y);
         
@@ -58,11 +58,14 @@ namespace KeyKeeper.World
             if (creature == null) throw new ArgumentNullException("Cannot spawn null creature.");
             if (!InBounds(spawn.X, spawn.Y, depth)) throw new ArgumentException($"Cannot spawn creature: {creature.Name} at invalid position: {spawn} depth {depth}.");
             _creatures[depth].Add(creature);
+            creature.X = spawn.X;
+            creature.Y = spawn.Y;
+            creature.Init(this);
         }
 
         public List<Creature> GetCreatures(int depth)
         {
-            if (depth < 0 || depth >= _levels.Length - 1) throw new ArgumentOutOfRangeException($"Cannot get creatures on level {depth}, out of bounds.");
+            if (depth < 0 || depth > _levels.Length - 1) throw new ArgumentOutOfRangeException($"Cannot get creatures on level {depth}, out of bounds.");
             return _creatures[depth];
         }
 

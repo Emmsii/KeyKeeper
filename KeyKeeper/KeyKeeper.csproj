@@ -44,8 +44,11 @@
   <ItemGroup>
     <Compile Include="Action\ActionResult.cs" />
     <Compile Include="Action\MoveAction.cs" />
+    <Compile Include="Action\WaitAction.cs" />
     <Compile Include="Content\Assets.cs" />
     <Compile Include="Entities\AI\CreatureAi.cs" />
+    <Compile Include="Entities\AI\HeroAi.cs" />
+    <Compile Include="Entities\AI\MonsterAi.cs" />
     <Compile Include="Entities\Creature.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Hero.cs" />
@@ -61,6 +64,9 @@
     <Compile Include="Graphics\Spritesheet.cs" />
     <Compile Include="Helpers\Dice.cs" />
     <Compile Include="Helpers\FieldOfView.cs" />
+    <Compile Include="Helpers\Game\GameEffect.cs" />
+    <Compile Include="Helpers\Game\GameEvent.cs" />
+    <Compile Include="Helpers\Game\GameResult.cs" />
     <Compile Include="Helpers\Line.cs" />
     <Compile Include="Helpers\Pool.cs" />
     <Compile Include="Interfaces\IAction.cs" />

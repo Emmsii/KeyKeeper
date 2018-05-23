@@ -1,5 +1,6 @@
 ﻿using KeyKeeper.Action;
 using KeyKeeper.Entities;
+using KeyKeeper.Helpers.Game;
 using KeyKeeper.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,38 +13,39 @@ namespace KeyKeeper.Managers
     public class CreatureManager
     {
         private int _currentCreatureIndex;
-        private int _currentTurn;
-        private int _currentSubTurn;
 
         private Creature CurrentCreature(List<Creature> creatures) => creatures[_currentCreatureIndex];
 
         public bool Running { get; set; } = true;
-        public int CurrentTurn { get { return _currentTurn; } }
-        public int CurrentSubTurn { get { return _currentSubTurn; } }
+        public int CurrentTurn { get; private set; }
+        public int CurrentSubTurn { get; private set; }
 
-        public void UpdateCreatures(List<Creature> creatures)
+        public GameResult UpdateCreatures(List<Creature> creatures)
         {
+            GameResult gameResult = new GameResult();
+
             while (Running)
             {
                 Creature creature = CurrentCreature(creatures);
 
-                if(creature is Hero)
+                if (creature.CanTakeTurn && creature.NeedsInput)
                 {
-                    _currentTurn++;
-                    _currentSubTurn = 0;
+                    return gameResult;
                 }
 
-                if (creature.CanTakeTurn && creature.NeedsInput) return; // gameresult
-
-                //gameresult.madeprofgress = true
+                CurrentSubTurn++;
+                gameResult.MadeProgress = true;
 
                 IAction action = null;
                 while(action == null)
                 {
-                    //creature = CurrentCreature(creatures);
+                    creature = CurrentCreature(creatures);
                     if(creature.CanTakeTurn || creature.GainEnergy)
                     {
-                        if (creature.NeedsInput) return; // gameresult
+                        if (creature.NeedsInput)
+                        {
+                            return gameResult;
+                        }
                         action = creature.GetAction();
                     }
                     else
@@ -63,9 +65,18 @@ namespace KeyKeeper.Managers
                 {
                     creature.FinishTurn();
                     AdvanceCreatureIndex(creatures);
-                    // check if hero, && has moved if yes compute fov
+                    if(creature is Hero)
+                    {
+                        CurrentTurn++;
+                        if (creature.HasMoved)
+                        {
+                            creature.World.ComputeFov(creature.X, creature.Y, creature.Depth, 10, Helpers.FovType.Shadowcast);
+                        }
+                    }
                 }
             }
+
+            return gameResult;
         }
 
         private void AdvanceCreatureIndex(List<Creature> creatures)

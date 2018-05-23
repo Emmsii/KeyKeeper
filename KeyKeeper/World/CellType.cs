@@ -28,9 +28,9 @@ namespace KeyKeeper.World
             IsTransparent = isTransparent;
         }
 
-        public Cell NewCellFromType(int x, int y)
+        public Cell NewCellFromType()
         {
-            return new Cell(x, y, this);
+            return new Cell(this);
         }
     }
 }

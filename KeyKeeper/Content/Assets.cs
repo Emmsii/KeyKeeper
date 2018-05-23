@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework;
 
 namespace KeyKeeper.Content
 {
-    public static class Assets
+    internal static class Assets
     {
 
         private static Dictionary<string, Spritesheet> _spritesheets = new Dictionary<string, Spritesheet>();
@@ -70,6 +70,7 @@ namespace KeyKeeper.Content
             AddSprite("floor", tiles.CutSprite(3, 0, "floor"));
 
             AddSprite("hero", creatures.CutSprite(0, 0, "hero"));
+            AddSprite("troll", creatures.CutSprite(7, 5, "troll"));
         }
 
         private static void LoadCellTypes()
@@ -85,7 +86,8 @@ namespace KeyKeeper.Content
 
         private static void LoadSpecies()
         {
-            AddSpecies("hero", new Species("hero", GetSprite("hero"), 10, 0, 10));
+            AddSpecies("hero", new Species("hero", GetSprite("hero"), Color.Red, 10, 0, 10));
+            AddSpecies("troll", new Species("troll", GetSprite("troll"), Color.Cyan, 10, -1, 10));
         }
 
     }

@@ -9,8 +9,6 @@ namespace KeyKeeper.World
 {
     public class BaseMap<T> : IMap<T>
     {
-        public T NullTile => throw new NotImplementedException();
-
         public int Width { get; }
         public int Height { get; }
 
@@ -25,7 +23,7 @@ namespace KeyKeeper.World
 
         public T GetTile(int x, int y)
         {
-            if (!InBounds(x, y)) return NullTile;
+            if (!InBounds(x, y)) return default(T);
             return Tiles[x, y];
         }
 

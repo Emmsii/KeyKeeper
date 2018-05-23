@@ -28,7 +28,7 @@ namespace KeyKeeper.Entities
 
         public bool HasMoved { get; private set; } = false;
 
-        public Creature(Species species) : base(species.Name)
+        public Creature(Species species) : base(species.Name, species.Sprite, species.ForegroundColor)
         {
             Species = species;
         }
@@ -43,7 +43,7 @@ namespace KeyKeeper.Entities
             {
                 X += x;
                 Y += y;
-                if (depth != 0) _world.SwitchCreatureLevel(this, Depth + depth);
+                //if (depth != 0) _world.SwitchCreatureLevel(this, Depth + depth);
             }
             HasMoved = canMove;
             return HasMoved;

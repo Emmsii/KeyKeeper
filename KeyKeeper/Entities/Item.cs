@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace KeyKeeper.Entities
 {
     public class Item : Entity
     {
-        public Item(string name) : base(name)
+        public Item(string name) : base(name, null, Color.Beige)
         {
 
         }

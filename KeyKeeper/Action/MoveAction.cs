@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Action
 {
-    public class MoveAction : IAction
+    public sealed class MoveAction : IAction
     {
         private int _x, _y, _depth;
 
@@ -24,6 +24,10 @@ namespace KeyKeeper.Action
             if (_x == 0 && _y == 0 && _depth == 0) return ActionResult.SUCCESS;
 
             // move logic
+            if(creature.MoveBy(_x, _y, _depth))
+            {
+                return ActionResult.SUCCESS;
+            }
 
             return ActionResult.SUCCESS;
         }

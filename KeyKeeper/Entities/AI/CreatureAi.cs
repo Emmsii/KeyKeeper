@@ -1,4 +1,5 @@
-﻿using KeyKeeper.World;
+﻿using KeyKeeper.Interfaces;
+using KeyKeeper.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace KeyKeeper.Entities.AI
             _creature = creature;
             creature.SetAi(this);
         }
+
+        public abstract IAction DecideNextAction();
 
         public bool CanMove(int x, int y, int depth)
         {

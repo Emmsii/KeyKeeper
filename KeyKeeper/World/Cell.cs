@@ -9,11 +9,8 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.World
 {
-    public class Cell
+    public sealed class Cell
     {
-
-        public int X { get; }
-        public int Y { get; }
 
         private readonly CellType _cellType;
 
@@ -26,12 +23,10 @@ namespace KeyKeeper.World
         public bool IsTransparent { get { return _cellType.IsTransparent; } }
 
         public Item Item { get; set; }
-        //public Prop Prop { get; set; }
+        public Prop Prop { get; set; }
 
-        public Cell(int x, int y, CellType type)
+        public Cell(CellType type)
         {
-            X = x;
-            Y = y;
             _cellType = type;
         }
     }

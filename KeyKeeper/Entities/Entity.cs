@@ -29,16 +29,19 @@ namespace KeyKeeper.Entities
         public string Name { get {return _name; } protected set { _name = value; } }
 
         protected string _name;
-        protected readonly Sprite _sprite;
+        public Sprite Sprite { get; }
+        public Color ForegroundColor { get; }
         private HashSet<string> _flags = new HashSet<string>();
 
         public bool AddFlag(string flag) => _flags.Add(flag);
         public bool RemoveFlag(string flag) => _flags.Remove(flag);
         public bool HasFlag(string flag) => _flags.Contains(flag);
 
-        public Entity(string name)
+        public Entity(string name, Sprite sprite, Color foregroundColor)
         {
             _name = name;
+            Sprite = sprite;
+            ForegroundColor = foregroundColor;
         }
 
         public void Init(GameWorld world)

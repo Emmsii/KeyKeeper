@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KeyKeeper.Managers;
 using KeyKeeper.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace KeyKeeper.Screen
@@ -13,9 +14,11 @@ namespace KeyKeeper.Screen
     {
         private readonly GameManager _gameManager;
 
-        private int ScrollX => Math.Max(0, Math.Min(_gameManager.Hero.X - (Width) / 2, _gameManager.GameWorld.LevelWidth(_gameManager.Hero.Depth) - Width));
-        private int ScrollY => Math.Max(0, Math.Min(_gameManager.Hero.Y - (Height) / 2, _gameManager.GameWorld.LevelWidth(_gameManager.Hero.Depth) - Height));
-        
+        private int ScrollX => Math.Max(0, Math.Min(_gameManager.Hero.X - (Width) / 2, CurrentLevel.Width - (Width)));
+        private int ScrollY => Math.Max(0, Math.Min(_gameManager.Hero.Y - (Height) / 2, CurrentLevel.Height - (Height)));
+
+        private GameLevel CurrentLevel => _gameManager.GameWorld.GetLevel(_gameManager.Hero.Depth);
+
         public LevelScreen(int x, int y, int width, int height, int scale, GameManager gameManager) : base(x, y, width, height, scale)
         {
             _gameManager = gameManager;
@@ -28,19 +31,25 @@ namespace KeyKeeper.Screen
             int sx = ScrollX;
             int sy = ScrollY;
 
-            for (int y = 0; y < level.Height; y++)
+            for (int ya = 0; ya < Height; ya++)
             {
-                int yp = y + sy;
-                for(int x = 0; x < level.Width; x++)
+                int yp = ya + sy;
+                for(int xa = 0; xa < Width; xa++)
                 {
-                    int xp = x + sx;
-                    DrawCell(level.GetCell(xp, yp), x, y, batch);
+                    int xp = xa + sx;
+                    DrawCell(level.GetCell(xp, yp), xa, ya, batch);
                 }
+            }
+
+            foreach(var creature in _gameManager.GameWorld.GetCreatures(_gameManager.Hero.Depth))
+            {
+                DrawSprite(creature.Sprite, creature.X - sx, creature.Y - sy, creature.ForegroundColor, Color.Black, batch);
             }
         }
 
         private void DrawCell(Cell cell, int xp, int yp, SpriteBatch batch)
         {
+            if (cell == null) return;
             DrawSprite(cell.Sprite, xp, yp, cell.ForegroundColor, cell.BackgroundColor, batch);
         }
     }

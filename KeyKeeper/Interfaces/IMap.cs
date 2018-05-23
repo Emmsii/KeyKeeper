@@ -8,8 +8,6 @@ namespace KeyKeeper.Interfaces
 {
     public interface IMap<T>
     {
-        T NullTile { get; }
-
         int Width { get; }
         int Height { get; }
         T[,] Tiles { get; }

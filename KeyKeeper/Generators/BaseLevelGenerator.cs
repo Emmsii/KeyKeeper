@@ -1,4 +1,5 @@
-﻿using KeyKeeper.Interfaces;
+﻿using KeyKeeper.Content;
+using KeyKeeper.Interfaces;
 using KeyKeeper.World;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Generators
 {
-    public abstract class BaseLevelGenerator : IBuilder<GameLevel>
+    internal abstract class BaseLevelGenerator : IBuilder<GameLevel>
     {
         protected readonly int _width;
         protected readonly int _height;

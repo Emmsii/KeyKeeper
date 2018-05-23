@@ -25,6 +25,8 @@ namespace KeyKeeper
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             _delayedInput.InputFireEvent += HandleInputEvent;
+
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -57,6 +59,7 @@ namespace KeyKeeper
         private void HandleInputEvent(object sender, InputEventArgs args)
         {
             // Handle input
+            _gameManager.Input(args.Key);
         }
 
         protected override void Update(GameTime gameTime)
@@ -65,6 +68,8 @@ namespace KeyKeeper
                 Exit();
 
             // TODO: Add your update logic here
+            _delayedInput.Update(Keyboard.GetState());
+            _gameManager.Update();
 
             base.Update(gameTime);
         }

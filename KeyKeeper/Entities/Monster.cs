@@ -16,7 +16,7 @@ namespace KeyKeeper.Entities
 
         protected override IAction OnGetAction()
         {
-            throw new NotImplementedException();
+            return Ai.DecideNextAction();
         }
     }
 }
