@@ -40,7 +40,7 @@ namespace KeyKeeper.Managers
 
             _levelScreen = new LevelScreen(0, 0, 12, 12, 2, this);
 
-            _replayManager = new ReplayManager(this);
+            _replayManager = new ReplayManager(this, "Replays/");
 
             // TODO: Only do this if starting a new game.
             _replayManager.StartNewReplay();

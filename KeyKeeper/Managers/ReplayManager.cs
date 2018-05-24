@@ -7,17 +7,22 @@ using System.Text;
 using System.Threading.Tasks;
 using fNbt;
 using System.Diagnostics;
+using System.IO;
 
 namespace KeyKeeper.Managers
 {
     public class ReplayManager
     {
         private const int DEFAULT_QUEUE_LENGTH = 50;
+        private const NbtCompression DEFAULT_COMPRESSION = NbtCompression.None;
 
         private readonly GameManager _gameManager;
 
-        private readonly Queue<ReplayEvent> _replayEvents = new Queue<ReplayEvent>(DEFAULT_QUEUE_LENGTH);
+        private readonly Queue<ReplayEvent> _replayEvents;
         private readonly int _queueMaxLength;
+        private readonly NbtCompression _fileCompression;
+
+        private readonly string _replayFolderPath;
 
         private int _currentBatchStartTick;
         private int _currentBatch;
@@ -29,17 +34,23 @@ namespace KeyKeeper.Managers
          * 
          */
 
-        public ReplayManager(GameManager gameManager, int queueMaxLength = DEFAULT_QUEUE_LENGTH)
+        public ReplayManager(GameManager gameManager, string replayFolderPath, int queueMaxLength = DEFAULT_QUEUE_LENGTH, NbtCompression fileCompression = DEFAULT_COMPRESSION)
         {
             _gameManager = gameManager;
+            _replayFolderPath = replayFolderPath;
             _queueMaxLength = queueMaxLength;
+            _fileCompression = fileCompression;
+
+            _replayEvents = new Queue<ReplayEvent>(_queueMaxLength);
         }
 
         public void StartNewReplay()
         {
+            CheckReplayFolder();
+
             NbtCompound root = GetNewReplayHeader();
             var replayHeaderFile = new NbtFile(root);
-            replayHeaderFile.SaveToFile("replay.dat", NbtCompression.None);
+            replayHeaderFile.SaveToFile(_replayFolderPath + "replay.dat", _fileCompression);
         }
 
         public void AddReplayEvent(IAction action)
@@ -74,7 +85,7 @@ namespace KeyKeeper.Managers
             root.Add(eventsTag);
 
             var eventFile = new NbtFile(root);
-            eventFile.SaveToFile("r_" + _currentBatch + ".dat", NbtCompression.None);
+            eventFile.SaveToFile(_replayFolderPath + "r_" + _currentBatch + ".dat", _fileCompression);
 
             watch.Stop();
             Console.WriteLine("Events saved in " + watch.Elapsed);
@@ -97,7 +108,16 @@ namespace KeyKeeper.Managers
                 new NbtInt("start_tick", _currentBatchStartTick),
                 new NbtInt("end_tick", _gameManager.Tick),
                 new NbtInt("batch", _currentBatch)
+                // TODO: Other info that might be needed per event file.
             };
+        }
+
+        private void CheckReplayFolder()
+        {
+            if (!Directory.Exists(_replayFolderPath))
+            {
+                Directory.CreateDirectory(_replayFolderPath);
+            }
         }
 
     }
@@ -125,6 +145,7 @@ namespace KeyKeeper.Managers
         public void LoadTag(NbtCompound tag, Dictionary<int, Type> types)
         {
             Tick = tag.Get<NbtInt>("tick")?.Value ?? -1;
+            // TODO: Figure out how to deserialize the 'action'.
         }
     }
 }
