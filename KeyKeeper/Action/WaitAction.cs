@@ -1,4 +1,5 @@
-﻿using KeyKeeper.Entities;
+﻿using fNbt;
+using KeyKeeper.Entities;
 using KeyKeeper.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,24 @@ namespace KeyKeeper.Action
         {
         }
 
+        public INbtSerializable NewInstance()
+        {
+            return new WaitAction();
+        }
+
         public ActionResult Perform(Creature creature)
         {
             return ActionResult.SUCCESS;
+        }
+
+        public void SetDataFrom(NbtCompound tag)
+        {
+            // nothing to set
+        }
+
+        public NbtTag WriteDataTo()
+        {
+            return new NbtCompound("action");
         }
     }
 }

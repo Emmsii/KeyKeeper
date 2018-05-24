@@ -1,4 +1,5 @@
-﻿using KeyKeeper.Content;
+﻿using KeyKeeper.Action;
+using KeyKeeper.Content;
 using KeyKeeper.Entities;
 using KeyKeeper.Entities.AI;
 using KeyKeeper.Generators;
@@ -17,9 +18,10 @@ namespace KeyKeeper.Managers
 {
     public class GameManager
     {
-        private readonly int _gameSeed;
-        private readonly int _worldSeed;
-                
+        public int GameSeed { get; }
+        public int WorldSeed { get; }
+
+        private readonly ReplayManager _replayManager;
         private readonly CreatureManager _creatureManager = new CreatureManager();
         public GameWorld GameWorld { get; private set; }
         public Hero Hero { get; private set; }
@@ -28,21 +30,30 @@ namespace KeyKeeper.Managers
 
         private LevelScreen _levelScreen;
 
+        public int Tick { get; private set; }
+
         public GameManager(int gameSeed)
         {
-            _gameSeed = gameSeed;
-            Random = new Random(_gameSeed);
-            _worldSeed = Random.Next();
+            GameSeed = gameSeed;
+            Random = new Random(GameSeed);
+            WorldSeed = Random.Next();
 
             _levelScreen = new LevelScreen(0, 0, 12, 12, 2, this);
+
+            _replayManager = new ReplayManager(this);
+
+            // TODO: Only do this if starting a new game.
+            _replayManager.StartNewReplay();
         }
 
         public void Init()
         {
-            GameWorld = new WorldGenerator(12, 12, 1, _worldSeed).Generate().Build();
+            GameWorld = new WorldGenerator(12, 12, 1, WorldSeed).Generate().Build();
 
             Hero = new Hero(Assets.GetSpecies("hero"));
             new HeroAi(Hero);
+
+            Hero.NewActionSetEvent += _replayManager.AddReplayEvent;
 
             GameWorld.AddCreature(new Point(10, 10), 0, Hero);
 
@@ -59,6 +70,7 @@ namespace KeyKeeper.Managers
 
         public void Update()
         {
+            Tick++;
             _creatureManager.UpdateCreatures(GameWorld.GetCreatures(Hero.Depth));
         }
 

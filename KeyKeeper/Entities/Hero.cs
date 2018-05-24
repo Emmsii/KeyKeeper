@@ -14,6 +14,9 @@ namespace KeyKeeper.Entities
     {
         private IAction _nextAction = null;
 
+        public delegate void NewActionSet(IAction action);
+        public event NewActionSet NewActionSetEvent;
+
         public Hero(Species species) : base(species)
         {
 
@@ -40,6 +43,7 @@ namespace KeyKeeper.Entities
         {
             IAction action = _nextAction;
             _nextAction = null;
+            NewActionSetEvent?.Invoke(action);
             return action;
         }
 

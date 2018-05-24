@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Interfaces
 {
-    public interface IAction
+    public interface IAction : INbtSerializable
     {
         ActionResult Perform(Creature creature);
     }

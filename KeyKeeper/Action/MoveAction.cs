@@ -1,4 +1,5 @@
-﻿using KeyKeeper.Entities;
+﻿using fNbt;
+using KeyKeeper.Entities;
 using KeyKeeper.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace KeyKeeper.Action
     {
         private int _x, _y, _depth;
 
+        private MoveAction() { }
+
         public MoveAction(int x, int y, int depth)
         {
             _x = x;
@@ -24,12 +27,34 @@ namespace KeyKeeper.Action
             if (_x == 0 && _y == 0 && _depth == 0) return ActionResult.SUCCESS;
 
             // move logic
-            if(creature.MoveBy(_x, _y, _depth))
+            if (creature.MoveBy(_x, _y, _depth))
             {
                 return ActionResult.SUCCESS;
             }
 
             return ActionResult.SUCCESS;
+        }
+
+        public INbtSerializable NewInstance()
+        {
+            return new MoveAction();
+        }
+
+        public void SetDataFrom(NbtCompound tag)
+        {
+            _x = tag.Get<NbtInt>("x")?.Value ?? 0;
+            _y = tag.Get<NbtInt>("y")?.Value ?? 0;
+            _depth = tag.Get<NbtInt>("depth")?.Value ?? 0;
+        }
+
+        public NbtTag WriteDataTo()
+        {
+            return new NbtCompound("action")
+            {
+                new NbtInt("x", _x),
+                new NbtInt("y", _y),
+                new NbtInt("depth", _depth),
+            };
         }
     }
 }
