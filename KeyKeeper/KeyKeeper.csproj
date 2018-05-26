@@ -80,7 +80,13 @@
     <Compile Include="Managers\CreatureManager.cs" />
     <Compile Include="Managers\EnergyManager.cs" />
     <Compile Include="Managers\GameManager.cs" />
-    <Compile Include="Managers\ReplayManager.cs" />
+    <Compile Include="Managers\Replays\BaseReplayManager.cs" />
+    <Compile Include="Managers\Replays\ReplayCaptureManager.cs" />
+    <Compile Include="Managers\Replays\ReplayEvent.cs" />
+    <Compile Include="Managers\Replays\ReplayException.cs" />
+    <Compile Include="Managers\Replays\ReplayFileManager.cs" />
+    <Compile Include="Managers\Replays\ReplayPlaybackManager.cs" />
+    <Compile Include="Managers\Replays\ReplayTagManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen\LevelScreen.cs" />

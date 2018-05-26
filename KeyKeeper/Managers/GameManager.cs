@@ -3,6 +3,8 @@ using KeyKeeper.Content;
 using KeyKeeper.Entities;
 using KeyKeeper.Entities.AI;
 using KeyKeeper.Generators;
+using KeyKeeper.Interfaces;
+using KeyKeeper.Managers.Replays;
 using KeyKeeper.Screen;
 using KeyKeeper.World;
 using Microsoft.Xna.Framework;
@@ -21,7 +23,7 @@ namespace KeyKeeper.Managers
         public int GameSeed { get; }
         public int WorldSeed { get; }
 
-        private readonly ReplayManager _replayManager;
+        private readonly ReplayCaptureManager<IAction> _replayCaptureManager;
         private readonly CreatureManager _creatureManager = new CreatureManager();
         public GameWorld GameWorld { get; private set; }
         public Hero Hero { get; private set; }
@@ -40,10 +42,12 @@ namespace KeyKeeper.Managers
 
             _levelScreen = new LevelScreen(0, 0, 12, 12, 2, this);
 
-            _replayManager = new ReplayManager(this, "Replays/");
+            _replayCaptureManager = new ReplayCaptureManager<IAction>(this, "Replays/");
+            _replayCaptureManager.RegisterType<MoveAction>(0);
+            _replayCaptureManager.RegisterType<WaitAction>(1);
 
             // TODO: Only do this if starting a new game.
-            _replayManager.StartNewReplay();
+            _replayCaptureManager.StartNewReplay();
         }
 
         public void Init()
@@ -53,7 +57,7 @@ namespace KeyKeeper.Managers
             Hero = new Hero(Assets.GetSpecies("hero"));
             new HeroAi(Hero);
 
-            Hero.NewActionSetEvent += _replayManager.AddReplayEvent;
+            Hero.NewActionSetEvent += _replayCaptureManager.AddReplayEvent;
 
             GameWorld.AddCreature(new Point(10, 10), 0, Hero);
 

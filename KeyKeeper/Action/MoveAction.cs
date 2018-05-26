@@ -35,21 +35,16 @@ namespace KeyKeeper.Action
             return ActionResult.SUCCESS;
         }
 
-        public INbtSerializable NewInstance()
-        {
-            return new MoveAction();
-        }
-
-        public void SetDataFrom(NbtCompound tag)
+        public void SetDataFromTag(NbtCompound tag)
         {
             _x = tag.Get<NbtInt>("x")?.Value ?? 0;
             _y = tag.Get<NbtInt>("y")?.Value ?? 0;
             _depth = tag.Get<NbtInt>("depth")?.Value ?? 0;
         }
 
-        public NbtTag WriteDataTo()
+        public NbtTag WriteDataToTag(string name)
         {
-            return new NbtCompound("action")
+            return new NbtCompound(name)
             {
                 new NbtInt("x", _x),
                 new NbtInt("y", _y),

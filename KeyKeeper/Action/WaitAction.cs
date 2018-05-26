@@ -15,24 +15,19 @@ namespace KeyKeeper.Action
         {
         }
 
-        public INbtSerializable NewInstance()
-        {
-            return new WaitAction();
-        }
-
         public ActionResult Perform(Creature creature)
         {
             return ActionResult.SUCCESS;
         }
 
-        public void SetDataFrom(NbtCompound tag)
+        public void SetDataFromTag(NbtCompound tag)
         {
             // nothing to set
         }
 
-        public NbtTag WriteDataTo()
+        public NbtTag WriteDataToTag(string name)
         {
-            return new NbtCompound("action");
+            return new NbtByte(name);
         }
     }
 }

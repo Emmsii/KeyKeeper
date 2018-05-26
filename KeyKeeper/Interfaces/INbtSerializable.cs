@@ -9,9 +9,7 @@ namespace KeyKeeper.Interfaces
 {
     public interface INbtSerializable
     {
-        NbtTag WriteDataTo();
-        void SetDataFrom(NbtCompound tag);
-
-        INbtSerializable NewInstance();
+        NbtTag WriteDataToTag(string name);
+        void SetDataFromTag(NbtCompound tag);
     }
 }
