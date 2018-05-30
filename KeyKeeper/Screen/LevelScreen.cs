@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KeyKeeper.Content;
+using KeyKeeper.Extensions;
+using KeyKeeper.Graphics;
 using KeyKeeper.Managers;
 using KeyKeeper.World;
 using Microsoft.Xna.Framework;
@@ -19,9 +22,12 @@ namespace KeyKeeper.Screen
 
         private GameLevel CurrentLevel => _gameManager.GameWorld.GetLevel(_gameManager.Hero.Depth);
 
-        public LevelScreen(int x, int y, int width, int height, int scale, GameManager gameManager) : base(x, y, width, height, scale)
+        private readonly Font _font;
+
+        public LevelScreen(int x, int y, int width, int height, int scale, bool hasBorder, GameManager gameManager) : base(x, y, width, height, scale, hasBorder)
         {
             _gameManager = gameManager;
+            _font = Assets.GetFont("font");
         }
 
         public override void Draw(SpriteBatch batch)
@@ -43,14 +49,17 @@ namespace KeyKeeper.Screen
 
             foreach(var creature in _gameManager.GameWorld.GetCreatures(_gameManager.Hero.Depth))
             {
-                DrawSprite(creature.Sprite, creature.X - sx, creature.Y - sy, creature.ForegroundColor, Color.Black, batch);
+                batch.DrawSprite(creature.Sprite, creature.X - sx, creature.Y - sy, Scale, creature.ForegroundColor);
             }
+
+            //batch.DrawFont("hello world", _font, 15, 2, Scale, (float) Math.Sin(t * 2) + 2, Color.Pink);
+            //batch.DrawUiPanel(0, 0, 10, 10, Scale, "title", Color.White);
         }
 
         private void DrawCell(Cell cell, int xp, int yp, SpriteBatch batch)
         {
             if (cell == null) return;
-            DrawSprite(cell.Sprite, xp, yp, cell.ForegroundColor, cell.BackgroundColor, batch);
+            batch.DrawSprite(cell.Sprite, xp, yp, Scale, cell.ForegroundColor);
         }
     }
 }

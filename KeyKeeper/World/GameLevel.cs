@@ -1,4 +1,6 @@
-﻿using KeyKeeper.Interfaces;
+﻿using fNbt;
+using KeyKeeper.Content;
+using KeyKeeper.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.World
 {
-    public class GameLevel
+    public class GameLevel 
     {
         private readonly IMap<Cell> _cellMap;
         private IMap<bool> _exploredMap;
@@ -31,5 +33,6 @@ namespace KeyKeeper.World
             if (!_exploredMap.InBounds(x, y)) return;
             _exploredMap.SetTile(x, y, isExplored);
         }
+
     }
 }

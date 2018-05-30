@@ -46,6 +46,7 @@
     <Compile Include="Action\MoveAction.cs" />
     <Compile Include="Action\WaitAction.cs" />
     <Compile Include="Content\Assets.cs" />
+    <Compile Include="Content\Constants.cs" />
     <Compile Include="Entities\AI\CreatureAi.cs" />
     <Compile Include="Entities\AI\HeroAi.cs" />
     <Compile Include="Entities\AI\MonsterAi.cs" />
@@ -57,9 +58,11 @@
     <Compile Include="Entities\Prop.cs" />
     <Compile Include="Entities\Species.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
+    <Compile Include="Extensions\SpriteBatchExtensions.cs" />
     <Compile Include="Generators\BaseLevelGenerator.cs" />
     <Compile Include="Generators\CaveLevelGenerator.cs" />
     <Compile Include="Generators\WorldGenerator.cs" />
+    <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\Spritesheet.cs" />
     <Compile Include="Helpers\Dice.cs" />
@@ -69,6 +72,7 @@
     <Compile Include="Helpers\Game\GameResult.cs" />
     <Compile Include="Helpers\Line.cs" />
     <Compile Include="Helpers\Pool.cs" />
+    <Compile Include="Input\MouseInputHandler.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IBuilder.cs" />
     <Compile Include="Interfaces\IMap.cs" />
@@ -89,8 +93,11 @@
     <Compile Include="Managers\Replays\ReplayTagManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screen\EmptyScreen.cs" />
     <Compile Include="Screen\LevelScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
+    <Compile Include="Managers\ScreenManager.cs" />
+    <Compile Include="Screen\StatScreen.cs" />
     <Compile Include="World\BaseMap.cs" />
     <Compile Include="World\Cell.cs" />
     <Compile Include="World\CellType.cs" />
