@@ -54,23 +54,27 @@ namespace KeyKeeper.Managers
 
         public void Init(int widthInTiles, int heightInTiles, int scale)
         {
-            GameWorld = new WorldGenerator(12, 12, 1, WorldSeed).Generate().Build();
+            //GameWorld = new WorldGenerator(12, 12, 1, WorldSeed).Generate().Build();
+
+
+
+            GameWorld = new GameWorld(new CaveLevelGenerator(12, 12, 0, WorldSeed).Generate().Build());
 
             Hero = new Hero(Assets.GetSpecies("hero"));
             new HeroAi(Hero);
 
             Hero.NewActionSetEvent += _replayCaptureManager.AddReplayEvent;
 
-            GameWorld.AddCreature(new Point(10, 10), 0, Hero);
+            GameWorld.CurrentLevel.AddCreature(new Point(10, 10), Hero);
 
             Monster monster = new Monster(Assets.GetSpecies("troll"));
             new MonsterAi(monster);
-            GameWorld.AddCreature(new Point(1, 1), 0, monster);
+            GameWorld.CurrentLevel.AddCreature(new Point(1, 1), monster);
 
             _mainScreen = new EmptyScreen(0, 0, widthInTiles, heightInTiles, scale);
 
-            _mainScreen.AddScreen(new LevelScreen(0, 0, 12, 12, scale, true, this));
-            _mainScreen.AddScreen(new StatScreen(12, 0, 12, 12, scale));
+            _mainScreen.AddScreen(new LevelScreen(0, 0, 12, 12, scale, false, this));
+            //_mainScreen.AddScreen(new StatScreen(12, 0, 12, 12, scale));
         }
 
         public void Input(Keys key)
@@ -86,7 +90,7 @@ namespace KeyKeeper.Managers
         public void Update()
         {
             Tick++;
-            _creatureManager.UpdateCreatures(GameWorld.GetCreatures(Hero.Depth));
+            _creatureManager.UpdateCreatures(GameWorld.CurrentLevel.Creatures);
         }
 
         public void Draw(SpriteBatch batch)

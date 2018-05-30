@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using KeyKeeper.Content;
 using KeyKeeper.Interfaces;
 using KeyKeeper.World;
+using Microsoft.Xna.Framework;
 
 namespace KeyKeeper.Generators
 {
     internal class CaveLevelGenerator : BaseLevelGenerator
     {
 
-        public CaveLevelGenerator(int width, int height, int depth, Random random) : base(width, height, depth, random)
+        public CaveLevelGenerator(int width, int height, int depth, int seed) : base(width, height, depth, seed)
         {
             for (int y = 0; y < height; y++)
             {
@@ -36,6 +37,14 @@ namespace KeyKeeper.Generators
                     //}
                 }
             }
+
+
+            if(depth != 0)
+            {
+                _map.SetTile(_random.Next(1, width - 2), _random.Next(1, height - 2), Assets.GetCellType("stairs_up").NewCellFromType());
+            }
+
+            _map.SetTile(_random.Next(1, width - 2), _random.Next(1, height - 2), Assets.GetCellType("stairs_down").NewCellFromType());
         }
 
         public override IBuilder<GameLevel> Generate()

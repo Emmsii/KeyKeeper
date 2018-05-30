@@ -37,6 +37,11 @@ namespace KeyKeeper.Entities
             else if (Controls.SOUTH_WEST.IsPressed(key)) SetNextAction(new MoveAction(-1, 1, 0));
 
             else if (Controls.WAIT.IsPressed(key)) SetNextAction(new WaitAction());
+
+            // Moving UP involves moving closer towards level 0. So depth numbers should decrease
+            // Moving DOWN involves moving closer to the MAX level. So depth numbers should increase.
+            else if (Controls.MOVE_UP.IsPressed(key)) SetNextAction(new MoveAction(0, 0, -1));
+            else if (Controls.MOVE_DOWN.IsPressed(key)) SetNextAction(new MoveAction(0, 0, 1));
         }
 
         protected override IAction OnGetAction()

@@ -20,7 +20,7 @@ namespace KeyKeeper.Screen
         private int ScrollX => Math.Max(0, Math.Min(_gameManager.Hero.X - (Width) / 2, CurrentLevel.Width - (Width)));
         private int ScrollY => Math.Max(0, Math.Min(_gameManager.Hero.Y - (Height) / 2, CurrentLevel.Height - (Height)));
 
-        private GameLevel CurrentLevel => _gameManager.GameWorld.GetLevel(_gameManager.Hero.Depth);
+        private GameLevel CurrentLevel => _gameManager.Hero.CurrentLevel;
 
         private readonly Font _font;
 
@@ -32,7 +32,7 @@ namespace KeyKeeper.Screen
 
         public override void Draw(SpriteBatch batch)
         {
-            GameLevel level = _gameManager.GameWorld.GetLevel(_gameManager.Hero.Depth);
+            //GameLevel level = _gameManager.GameWorld.GetLevel(_gameManager.Hero.Depth);
 
             int sx = ScrollX;
             int sy = ScrollY;
@@ -43,11 +43,11 @@ namespace KeyKeeper.Screen
                 for(int xa = 0; xa < Width; xa++)
                 {
                     int xp = xa + sx;
-                    DrawCell(level.GetCell(xp, yp), xa, ya, batch);
+                    DrawCell(CurrentLevel.GetCell(xp, yp), xa, ya, batch);
                 }
             }
 
-            foreach(var creature in _gameManager.GameWorld.GetCreatures(_gameManager.Hero.Depth))
+            foreach(var creature in CurrentLevel.Creatures)
             {
                 batch.DrawSprite(creature.Sprite, creature.X - sx, creature.Y - sy, Scale, creature.ForegroundColor);
             }

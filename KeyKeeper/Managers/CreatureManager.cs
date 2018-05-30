@@ -70,7 +70,7 @@ namespace KeyKeeper.Managers
                         CurrentTurn++;
                         if (creature.HasMoved)
                         {
-                            creature.World.ComputeFov(creature.X, creature.Y, creature.Depth, 10, Helpers.FovType.Shadowcast);
+                            creature.CurrentLevel.ComputeFov(creature.X, creature.Y, 10, Helpers.FovType.Shadowcast);
                         }
                     }
                 }

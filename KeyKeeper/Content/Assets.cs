@@ -96,12 +96,17 @@ namespace KeyKeeper.Content
             Spritesheet creatures = GetSpritesheet("creatures");
             Spritesheet ui = GetSpritesheet("ui");
 
+            // Tile Sprites
             AddSprite("wall", tiles.CutSprite(0, 0, "wall"));
             AddSprite("floor", tiles.CutSprite(3, 0, "floor"));
+            AddSprite("stairs_down", tiles.CutSprite(2, 1, "stairs_down"));
+            AddSprite("stairs_up", tiles.CutSprite(3, 1, "stairs_up"));
 
+            // Creature Sprites
             AddSprite("hero", creatures.CutSprite(0, 0, "hero"));
             AddSprite("troll", creatures.CutSprite(7, 5, "troll"));
 
+            // UI Sprites
             AddSprite("border_horizontal", ui.CutSprite(0, 0, "border_horizontal"));
             AddSprite("border_vertical", ui.CutSprite(1, 0, "border_vertical"));
             AddSprite("border_bottom_right", ui.CutSprite(2, 0, "border_bottom_right"));
@@ -120,9 +125,16 @@ namespace KeyKeeper.Content
         {
             AddCellType("wall", new CellType("wall", GetSprite("wall"), Color.Beige, Color.Black, true, false));
             AddCellType("floor", new CellType("floor", GetSprite("floor"), Color.Beige, Color.Black, false, true));
+            AddCellType("stairs_down", new CellType("stairs_down", GetSprite("stairs_down"), Color.Beige, Color.Black, false, true));
+            AddCellType("stairs_up", new CellType("stairs_up", GetSprite("stairs_down"), Color.Beige, Color.Black, false, true));
         }
 
         private static void LoadItems()
+        {
+
+        }
+
+        private static void LoadProps()
         {
 
         }

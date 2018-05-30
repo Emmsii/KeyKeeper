@@ -37,13 +37,13 @@ namespace KeyKeeper.Entities
 
         public bool MoveBy(int x, int y, int depth)
         {
-            if (!_world.InBounds(X + x, Y + y, Depth + depth)) return false;
+            if (!CurrentLevel.InBounds(X + x, Y + y)) return false;
             bool canMove = Ai.CanMove(X + x, Y + y, Depth + depth);
             if (canMove)
             {
                 X += x;
                 Y += y;
-                //if (depth != 0) _world.SwitchCreatureLevel(this, Depth + depth);
+                if (depth != 0) CurrentLevel.SwitchCreatureLevel(this, Depth + depth);
             }
             HasMoved = canMove;
             return HasMoved;

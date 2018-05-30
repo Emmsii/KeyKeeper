@@ -20,6 +20,9 @@ namespace KeyKeeper.Input
 
         public static readonly Control WAIT = new Control().Bind(Keys.NumPad5).Bind(Keys.OemPeriod);
 
+        public static readonly Control MOVE_UP = new Control().Bind(Keys.OemPeriod);
+        public static readonly Control MOVE_DOWN = new Control().Bind(Keys.OemComma);
+
     }
 
     public class Control

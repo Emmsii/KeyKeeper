@@ -19,19 +19,19 @@ namespace KeyKeeper.Generators
 
         protected readonly Random _random;
 
-        public BaseLevelGenerator(int width, int height, int depth, Random random)
+        public BaseLevelGenerator(int width, int height, int depth, int seed)
         {
             _width = width;
             _height = height;
             _depth = depth;
-            _random = random;
+            _random = new Random(seed);
 
-            _map = new BaseMap<Cell>(_width, _height);
+            _map = new BaseMap<Cell>(_width, _height, new Cell(Assets.GetCellType("wall")));
         }
 
         public virtual GameLevel Build()
         {
-            return new GameLevel(_map);
+            return new GameLevel(_map, _depth);
         }
 
         public abstract IBuilder<GameLevel> Generate();
