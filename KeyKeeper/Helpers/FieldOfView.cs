@@ -42,7 +42,7 @@ namespace KeyKeeper.Helpers
 
     public class FieldOfView
     {
-        private readonly GameLevel _level;
+        private readonly GameWorld _world;
         private readonly HashSet<Point> _inFov = new HashSet<Point>();
 
         public bool IsInFov(int x, int y) => _inFov.Contains(new Point(x, y));
@@ -50,82 +50,82 @@ namespace KeyKeeper.Helpers
 
         private double Radius(int dx, int dy) => Math.Sqrt(dx * dx + dx * dy);
 
-        public FieldOfView(GameLevel level)
+        public FieldOfView(GameWorld world)
         {
-            _level = level;
+            _world = world;
         }
 
-        public void Compute(int x, int y, int radius, FovType type)
+        public void Compute(int x, int y, int depth, int radius, FovType type)
         {
             if (radius < 1) throw new ArgumentOutOfRangeException("Cannot compute fov with a radius less than 1.");
-            SetInFov(x, y);
-            if (type == FovType.Shadowcast) ShadowCast(x, y, radius);
-            else if (type == FovType.Linecast) LineCast(x, y, radius);
+            SetInFov(x, y, depth);
+            if (type == FovType.Shadowcast) ShadowCast(x, y, depth, radius);
+            else if (type == FovType.Linecast) LineCast(x, y, depth, radius);
         }
 
-        private void LineCast(int x, int y, int radius)
+        private void LineCast(int x, int y, int depth, int radius)
         {
             int radiusSquared = radius * radius;
-            for(int ya = -radius; ya < radius; ya++)
+            for (int ya = -radius; ya < radius; ya++)
             {
                 int yaSquared = ya * ya;
-                for(int xa = -radius; xa < radius; xa++)
+                for (int xa = -radius; xa < radius; xa++)
                 {
                     if (xa * xa + yaSquared > radiusSquared) continue;
-                    if (!_level.InBounds(xa + x, ya + y)) continue;
+                    if (!_world.InBounds(xa + x, ya + y, depth)) continue;
 
-                    foreach(Point p in new Line(x, y, x + xa, y + ya))
+                    foreach (Point p in new Line(x, y, x + xa, y + ya))
                     {
-                        SetInFov(p.X, p.Y);
-                        _level.SetExplored(p.X, p.Y, true);
-                        if (!_level.IsTransparent(p.X, p.Y)) break;
+                        SetInFov(p.X, p.Y, depth);
+                        _world.SetExplored(p.X, p.Y, depth, true);
+                        if (!_world.IsTransparent(p.X, p.Y, depth)) break;
                     }
                 }
             }
         }
 
-        private void ShadowCast(int x, int y, int radius)
+        private void ShadowCast(int x, int y, int depth, int radius)
         {
-            foreach(FovDirection dir in FovDirection.Diagonals)
+            foreach (FovDirection dir in FovDirection.Diagonals)
             {
-                CastLight(1, 1.0f, 0.0f, x, y, 0, dir.X, dir.Y, 0, radius);
-                CastLight(1, 1.0f, 0.0f, x, y, dir.X, 0, 0, dir.Y, radius);
+                CastLight(1, 1.0f, 0.0f, x, y, 0, dir.X, dir.Y, 0, depth, radius);
+                CastLight(1, 1.0f, 0.0f, x, y, dir.X, 0, 0, dir.Y, depth, radius);
             }
         }
 
-        private void CastLight(int row, float start, float end, int startX, int startY, int xx, int xy, int yx, int yy, int radius)
+        private void CastLight(int row, float start, float end, int startX, int startY, int xx, int xy, int yx, int yy, int depth, int radius)
         {
             float newStart = 0.0f;
             if (start < end) return;
             bool blocked = false;
 
-            for(int distance = row; distance <= radius && !blocked; distance++)
+            for (int distance = row; distance <= radius && !blocked; distance++)
             {
                 int deltaY = -distance;
-                for(int deltaX = -distance; deltaX <= 0; deltaX++)
+                for (int deltaX = -distance; deltaX <= 0; deltaX++)
                 {
                     int currentX = startX + deltaX * xx + deltaY * xy;
                     int currentY = startY + deltaX * yx + deltaY * yy;
                     float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
                     float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
 
-                    if(!(currentX >= 0 && currentY >= 0 && currentX < _level.Width && currentY < _level.Height) || start < rightSlope)
+                    if (!(currentX >= 0 && currentY >= 0 && currentX < _world.LevelWidth(depth) && currentY < _world.LevelHeight(depth)) || start < rightSlope)
                     {
                         continue;
                     }
-                    else if(end > leftSlope)
+                    else if (end > leftSlope)
                     {
                         break;
                     }
 
-                    if(Radius(deltaX, deltaY) <= radius)
+                    if (Radius(deltaX, deltaY) <= radius)
                     {
-                        SetInFov(currentX, currentY);
+                        SetInFov(currentX, currentY, depth);
                     }
 
                     if (blocked)
                     {
-                        if(!_level.IsTransparent(currentX, currentY))
+                        if (!_world.IsTransparent(currentX, currentY, depth))
                         {
                             newStart = rightSlope;
                             continue;
@@ -138,10 +138,10 @@ namespace KeyKeeper.Helpers
                     }
                     else
                     {
-                        if(!_level.IsTransparent(currentX, currentY) && distance < radius)
+                        if (!_world.IsTransparent(currentX, currentY, depth) && distance < radius)
                         {
                             blocked = true;
-                            CastLight(distance + 1, start, leftSlope, startX, startY, xx, xy, yx, yy, radius);
+                            CastLight(distance + 1, start, leftSlope, startX, startY, xx, xy, yx, yy, depth, radius);
                             newStart = rightSlope;
                         }
                     }
@@ -149,9 +149,9 @@ namespace KeyKeeper.Helpers
             }
         }
 
-        private void SetInFov(int x, int y)
+        private void SetInFov(int x, int y, int depth)
         {
-            _level.SetExplored(x, y, true);
+            _world.SetExplored(x, y, depth, true);
             _inFov.Add(new Point(x, y));
         }
     }

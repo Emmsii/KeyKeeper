@@ -12,22 +12,22 @@ namespace KeyKeeper.World
     public sealed class Cell
     {
 
-        private readonly CellType _cellType;
+        public TileType TileType { get; set; }
 
-        public string Name { get { return _cellType.Name; } }
-        public Sprite Sprite { get { return _cellType.Sprite; } }
-        public Color ForegroundColor { get { return _cellType.ForegroundColor; } }
-        public Color BackgroundColor { get { return _cellType.BackgroundColor; } }
+        public string Name { get { return TileType.Name; } }
+        public Sprite Sprite { get { return TileType.Sprite; } }
+        public Color ForegroundColor { get { return TileType.ForegroundColor; } }
+        public Color BackgroundColor { get { return TileType.BackgroundColor; } }
 
-        public bool IsSolid { get { return _cellType.IsSolid; } }
-        public bool IsTransparent { get { return _cellType.IsTransparent; } }
+        public bool IsSolid { get { return TileType.IsSolid; } }
+        public bool IsTransparent { get { return TileType.IsTransparent; } }
 
         public Item Item { get; set; }
         public Prop Prop { get; set; }
 
-        public Cell(CellType type)
+        public Cell(TileType tileType)
         {
-            _cellType = type;
+            TileType = tileType;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace KeyKeeper.Screen
         private int ScrollX => Math.Max(0, Math.Min(_gameManager.Hero.X - (Width) / 2, CurrentLevel.Width - (Width)));
         private int ScrollY => Math.Max(0, Math.Min(_gameManager.Hero.Y - (Height) / 2, CurrentLevel.Height - (Height)));
 
-        private GameLevel CurrentLevel => _gameManager.Hero.CurrentLevel;
+        private GameLevel CurrentLevel => _gameManager.GameWorld.GetLevel(_gameManager.Hero.Depth);
 
         public LevelScreen(int x, int y, int width, int height, int scale, GameManager gameManager) : base(x, y, width, height, scale)
         {
@@ -41,7 +41,7 @@ namespace KeyKeeper.Screen
                 }
             }
 
-            foreach(var creature in CurrentLevel.Creatures)
+            foreach(var creature in _gameManager.GameWorld.GetCreatures(_gameManager.Hero.Depth))
             {
                 DrawSprite(creature.Sprite, creature.X - sx, creature.Y - sy, creature.ForegroundColor, Color.Black, batch);
             }

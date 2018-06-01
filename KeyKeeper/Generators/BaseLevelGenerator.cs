@@ -15,7 +15,7 @@ namespace KeyKeeper.Generators
         protected readonly int _height;
         protected readonly int _depth;
 
-        protected readonly IMap<Cell> _map;
+        protected readonly CellMap _map;
 
         protected readonly Random _random;
 
@@ -26,7 +26,7 @@ namespace KeyKeeper.Generators
             _depth = depth;
             _random = new Random(seed);
 
-            _map = new BaseMap<Cell>(_width, _height, new Cell(Assets.GetCellType("wall")));
+            _map = new CellMap(_width, _height, new Cell(Assets.GetTileType("wall")));
         }
 
         public virtual GameLevel Build()

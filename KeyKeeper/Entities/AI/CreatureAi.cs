@@ -23,7 +23,7 @@ namespace KeyKeeper.Entities.AI
 
         public bool CanMove(int x, int y, int depth)
         {
-            if (!CanEnter(x, y)) return false;
+            if (!CanEnter(x, y, depth)) return false;
 
             if (depth == 1 && _creature.CurrentLevel.GetCell(x, y).Name.Equals("stairs_down"))
             {
@@ -42,10 +42,11 @@ namespace KeyKeeper.Entities.AI
             return true;
         }
 
-        public bool CanEnter(int x, int y)
+        public bool CanEnter(int x, int y, int depth)
         {
-            if (_creature.CurrentLevel.IsSolid(x, y)) return false;
-            if (_creature.CurrentLevel.GetCreature(x, y) != null) return false;
+            Cell cell = _creature.World.GetCell(x, y, depth);
+            if (cell.IsSolid) return false;
+            if (_creature.World.GetCreature(x, y, depth) != null) return false;
             return true;
         }
     }

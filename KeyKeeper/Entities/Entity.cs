@@ -14,8 +14,10 @@ namespace KeyKeeper.Entities
     {
         private static int EntityCount = 0;
 
-        protected GameLevel _currentLevel;
-        public GameLevel CurrentLevel{ get { return _currentLevel; } set { _currentLevel = value; } }
+        protected GameWorld _world;
+        public GameWorld World { get { return _world; } }
+
+        public GameLevel CurrentLevel => World.GetLevel(Depth);
 
         public int ID { get; private set; }
 
@@ -24,9 +26,9 @@ namespace KeyKeeper.Entities
 
         public int X { get { return _location.X; } set { _location.X = value; } }
         public int Y { get { return _location.Y; } set { _location.Y = value; } }
-        public int Depth => CurrentLevel.Depth;
+        public int Depth { get; protected set; }
 
-        public string Name { get {return _name; } protected set { _name = value; } }
+        public string Name { get { return _name; } protected set { _name = value; } }
 
         protected string _name;
         public Sprite Sprite { get; }
@@ -44,10 +46,10 @@ namespace KeyKeeper.Entities
             ForegroundColor = foregroundColor;
         }
 
-        public void Init(GameLevel currentLevel)
+        public void Init(GameWorld world)
         {
             ID = EntityCount++;
-            _currentLevel = currentLevel;
+            _world = world;
         }
 
         public void SetPosition(int x, int y, int z)

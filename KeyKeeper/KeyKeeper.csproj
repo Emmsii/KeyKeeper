@@ -93,7 +93,8 @@
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="World\BaseMap.cs" />
     <Compile Include="World\Cell.cs" />
-    <Compile Include="World\CellType.cs" />
+    <Compile Include="World\CellMap.cs" />
+    <Compile Include="World\TileType.cs" />
     <Compile Include="World\GameLevel.cs" />
     <Compile Include="World\GameWorld.cs" />
   </ItemGroup>

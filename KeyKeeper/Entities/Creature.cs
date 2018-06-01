@@ -43,7 +43,7 @@ namespace KeyKeeper.Entities
             {
                 X += x;
                 Y += y;
-                if (depth != 0) CurrentLevel.SwitchCreatureLevel(this, Depth + depth);
+                //if (depth != 0) CurrentLevel.SwitchCreatureLevel(this, Depth + depth);
             }
             HasMoved = canMove;
             return HasMoved;
