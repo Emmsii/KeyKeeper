@@ -12,13 +12,11 @@ namespace KeyKeeper
     {
 
         private const int _scale = 2;
-        private const int _tileSize = 16;
-
-        private readonly GraphicsDeviceManager _graphics;
+        
+        private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private readonly DelayedInputHandler _delayedInput = new DelayedInputHandler(20, 2);
-        private readonly MouseInputHandler _mouseInput = new MouseInputHandler();
+        private DelayedInputHandler _delayedInput = new DelayedInputHandler(20, 2);
 
         private GameManager _gameManager;
 
@@ -36,7 +34,7 @@ namespace KeyKeeper
             // TODO: Add your initialization logic here
 
             _gameManager = new GameManager(Environment.TickCount);
-
+            
             base.Initialize();
         }
 
@@ -47,10 +45,9 @@ namespace KeyKeeper
 
             Assets.LoadAssets(Content);
 
-            int widthInTiles = (_graphics.PreferredBackBufferWidth / _tileSize) / _scale;
-            int heightInTiles = (_graphics.PreferredBackBufferHeight / _tileSize) / _scale;
+            
 
-            _gameManager.Init(widthInTiles, heightInTiles, _scale);
+            _gameManager.Init();
             // TODO: use this.Content to load your game content here
         }
 
@@ -72,9 +69,6 @@ namespace KeyKeeper
 
             // TODO: Add your update logic here
             _delayedInput.Update(Keyboard.GetState());
-            _mouseInput.Update(Mouse.GetState());
-
-            _gameManager.MouseInput(_mouseInput);
             _gameManager.Update();
 
             base.Update(gameTime);
@@ -82,8 +76,8 @@ namespace KeyKeeper
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
-            
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             _gameManager.Draw(_spriteBatch);
             _spriteBatch.End();
