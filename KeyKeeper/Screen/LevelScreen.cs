@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KeyKeeper.Graphics;
 using KeyKeeper.Managers;
 using KeyKeeper.World;
 using Microsoft.Xna.Framework;
@@ -10,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace KeyKeeper.Screen
 {
-    public class LevelScreen : Screen
+    public class LevelScreen : BaseScreen
     {
         private readonly GameManager _gameManager;
 
@@ -19,7 +20,7 @@ namespace KeyKeeper.Screen
 
         private GameLevel CurrentLevel => _gameManager.GameWorld.GetLevel(_gameManager.Hero.Depth);
 
-        public LevelScreen(int x, int y, int width, int height, int scale, GameManager gameManager) : base(x, y, width, height, scale)
+        public LevelScreen(int x, int y, int width, int height, int scale, bool hasBorder, GameManager gameManager) : base(x, y, width, height, scale, hasBorder)
         {
             _gameManager = gameManager;
         }
@@ -37,20 +38,27 @@ namespace KeyKeeper.Screen
                 for(int xa = 0; xa < Width; xa++)
                 {
                     int xp = xa + sx;
-                    DrawCell(CurrentLevel.GetCell(xp, yp), xa, ya, batch);
+                    DrawCell(CurrentLevel.GetCell(xp, yp), xa + X, ya + Y, batch);
                 }
             }
 
             foreach(var creature in _gameManager.GameWorld.GetCreatures(_gameManager.Hero.Depth))
             {
-                DrawSprite(creature.Sprite, creature.X - sx, creature.Y - sy, creature.ForegroundColor, Color.Black, batch);
+                Renderer.DrawSprite(batch, creature.Sprite, creature.X - sx + X, creature.Y - sy + Y, Scale, creature.ForegroundColor);
             }
+
+            base.Draw(batch);
+        }
+
+        private void RendererDrawSprite(Sprite sprite, int v1, int v2, Color foregroundColor, Color black, SpriteBatch batch)
+        {
+            throw new NotImplementedException();
         }
 
         private void DrawCell(Cell cell, int xp, int yp, SpriteBatch batch)
         {
             if (cell == null) return;
-            DrawSprite(cell.Sprite, xp, yp, cell.ForegroundColor, cell.BackgroundColor, batch);
+            Renderer.DrawSprite(batch, cell.Sprite, xp, yp, Scale, cell.ForegroundColor);
         }
     }
 }

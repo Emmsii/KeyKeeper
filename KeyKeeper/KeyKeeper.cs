@@ -5,6 +5,7 @@ using KeyKeeper.Input;
 using KeyKeeper.Managers;
 using System;
 using KeyKeeper.Content;
+using KeyKeeper.Graphics;
 
 namespace KeyKeeper
 {
@@ -12,7 +13,10 @@ namespace KeyKeeper
     {
 
         private const int _scale = 2;
-        
+
+        private int _widthInTiles;
+        private int _heightInTiles;
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -26,6 +30,9 @@ namespace KeyKeeper
             Content.RootDirectory = "Content";
             _delayedInput.InputFireEvent += HandleInputEvent;
 
+            _widthInTiles = _graphics.PreferredBackBufferWidth / (16 * _scale);
+            _heightInTiles = _graphics.PreferredBackBufferHeight / (16 * _scale);
+
             IsMouseVisible = true;
         }
 
@@ -33,7 +40,7 @@ namespace KeyKeeper
         {
             // TODO: Add your initialization logic here
 
-            _gameManager = new GameManager(Environment.TickCount);
+            _gameManager = new GameManager(Environment.TickCount, _widthInTiles, _heightInTiles);
             
             base.Initialize();
         }
@@ -76,13 +83,38 @@ namespace KeyKeeper
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Opaque);
             _gameManager.Draw(_spriteBatch);
             _spriteBatch.End();
 
+            DrawDebugBoxes(_spriteBatch);
+
             base.Draw(gameTime);
         }
+
+        public void DrawDebugBoxes(SpriteBatch batch)
+        {
+            batch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
+            Rectangle destination = new Rectangle();
+            Sprite sprite = Assets.GetSprite("debug_box");
+
+            for(int y = 0; y < _heightInTiles; y++)
+            {
+                for(int x = 0; x < _widthInTiles; x++)
+                {
+                    destination.X = x * sprite.Width * 2;
+                    destination.Y = y * sprite.Height * 2;
+                    destination.Width = sprite.Width * 2;
+                    destination.Height = sprite.Height* 2;
+
+                    batch.Draw(sprite.Texture, destination, sprite.Bounds, Color.Red);
+                }
+            }
+
+            batch.End();
+        }
+
     }
 }

@@ -30,17 +30,21 @@ namespace KeyKeeper.Managers
 
         public static Random Random;
 
-        private LevelScreen _levelScreen;
+        //private LevelScreen _levelScreen;
+        private BaseScreen _baseScreen;
 
         public int Tick { get; private set; }
 
-        public GameManager(int gameSeed)
+        public GameManager(int gameSeed, int widthInTiles, int heightInTiles)
         {
             GameSeed = gameSeed;
             Random = new Random(GameSeed);
             WorldSeed = Random.Next();
 
-            _levelScreen = new LevelScreen(0, 0, 12, 12, 2, this);
+            _baseScreen = new BaseScreen(0, 0, widthInTiles, heightInTiles, 2, true);
+            _baseScreen.AddScreen(new LevelScreen(0, 0, 12, 12, 2, true, this));
+            _baseScreen.AddScreen(new LevelScreen(27, 1, 12, 12, 1, true, this));
+            //_levelScreen = new LevelScreen(0, 0, 12, 12, 2, this);
 
             _replayCaptureManager = new ReplayCaptureManager<IAction>(this, "Replays/");
             _replayCaptureManager.RegisterType<MoveAction>(0);
@@ -80,7 +84,7 @@ namespace KeyKeeper.Managers
 
         public void Draw(SpriteBatch batch)
         {
-            _levelScreen.Draw(batch);   
+            _baseScreen.Draw(batch);   
         }
     }
 }

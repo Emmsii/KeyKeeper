@@ -1,17 +1,11 @@
 ﻿using KeyKeeper.Entities;
 using KeyKeeper.Graphics;
 using KeyKeeper.World;
-using Content = Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
-using System.IO;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 
 namespace KeyKeeper.Content
@@ -107,6 +101,21 @@ namespace KeyKeeper.Content
 
             AddSprite("stairs_down", tiles.CutSprite(2, 1, "stairs_down"));
             AddSprite("stairs_up", tiles.CutSprite(3, 1, "stairs_up"));
+
+            AddSprite("debug_box", tiles.CutSprite(3, 10, "debug_box"));
+
+            AddSprite("border_horizontal", ui.CutSprite(0, 0, "border_horizontal"));
+            AddSprite("border_vertical", ui.CutSprite(1, 0, "border_vertical"));
+            AddSprite("border_bottom_right", ui.CutSprite(2, 0, "border_bottom_right"));
+            AddSprite("border_bottom_left", ui.CutSprite(3, 0, "border_bottom_left"));
+            AddSprite("border_top_left", ui.CutSprite(4, 0, "border_top_left"));
+            AddSprite("border_top_right", ui.CutSprite(5, 0, "border_top_right"));
+            AddSprite("border_vertical_right", ui.CutSprite(6, 0, "border_vertical_right"));
+            AddSprite("border_vertical_left", ui.CutSprite(8, 0, "border_vertical_left"));
+            AddSprite("border_horizontal_top", ui.CutSprite(0, 1, "border_horizontal_top"));
+            AddSprite("border_horizontal_bottom", ui.CutSprite(1, 1, "border_horizontal_bottom"));
+            AddSprite("dot", ui.CutSprite(2, 1, "dot"));
+            AddSprite("dither_fill", ui.CutSprite(3, 1, "dither_fill"));
         }
 
         private static void LoadTileTypes()
