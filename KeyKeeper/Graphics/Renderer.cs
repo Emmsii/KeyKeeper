@@ -29,7 +29,7 @@ namespace KeyKeeper.Graphics
             batch.Draw(sprite.Texture, _destination, sprite.Bounds, color);
         }
 
-        public static void DrawString(SpriteBatch batch, Font font, string text, int x, int y, int positionScaleX, int positionScaleY, int fontScale, Color color)
+        public static void DrawString(SpriteBatch batch, Font font, string text, int x, int y, Color color)
         {
             if(font == null)
             {
@@ -41,21 +41,16 @@ namespace KeyKeeper.Graphics
                 return;
             }
 
-            if(positionScaleY == 1)
-            {
-                y++;
-            }
-
             int offset = 0;
 
             foreach(char character in text)
             {
                 Sprite charSprite = font.GetCharacterSprite(character);
 
-                _destination.X = x * charSprite.Width * positionScaleX * 2 + (charSprite.Width * fontScale / 2) + (offset++ * charSprite.Width * fontScale);
-                _destination.Y = y * charSprite.Height * positionScaleY;
-                _destination.Width = charSprite.Width * fontScale;
-                _destination.Height = charSprite.Height * fontScale;
+                _destination.X = x * charSprite.Width * 2 + (charSprite.Width / 2) + (offset++ * charSprite.Width);
+                _destination.Y = y * charSprite.Height;
+                _destination.Width = charSprite.Width;
+                _destination.Height = charSprite.Height;
 
                 batch.Draw(charSprite.Texture, _destination, charSprite.Bounds, color);
             }

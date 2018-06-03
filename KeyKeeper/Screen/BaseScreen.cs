@@ -1,6 +1,8 @@
 ﻿using KeyKeeper.Content;
 using KeyKeeper.Graphics;
 using KeyKeeper.Helpers;
+using KeyKeeper.Input;
+using KeyKeeper.Screen.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -22,7 +24,7 @@ namespace KeyKeeper.Screen
         private int _width;
         private int _height;
 
-        protected int X {
+        public int X {
             get {
 
                 if (Parent != null)
@@ -57,7 +59,8 @@ namespace KeyKeeper.Screen
                 _x = value;
             }
         }
-        protected int Y {
+
+        public int Y {
             get {
 
                 if (Parent != null)
@@ -162,6 +165,7 @@ namespace KeyKeeper.Screen
         protected BaseScreen Parent { get; private set; }
 
         private List<BaseScreen> _screens = new List<BaseScreen>();
+        private List<Component> _components = new List<Component>();
 
         public BaseScreen(int x, int y, int width, int height, bool hasBorder)
         {
@@ -177,6 +181,11 @@ namespace KeyKeeper.Screen
             foreach (BaseScreen screen in _screens)
             {
                 screen.Draw(batch);
+            }
+
+            foreach(Component component in _components)
+            {
+                component.Draw(batch);
             }
 
             if (HasBorder)
@@ -196,6 +205,34 @@ namespace KeyKeeper.Screen
         {
             _screens.Add(screen);
             screen.Parent = this;
+        }
+
+        public void AddComponents(params Component[] components)
+        {
+            foreach(Component component in components)
+            {
+                _components.Add(component);
+                component.ParentScreen = this;
+            }
+        }
+
+        public void AddComponent(Component component)
+        {
+            _components.Add(component);
+            component.ParentScreen = this;
+        }
+
+        public void RegisterEvents(MouseInputHandler mouseInput)
+        {
+            foreach(BaseScreen screen in _screens)
+            {
+                screen.RegisterEvents(mouseInput);
+            }
+
+            foreach(Component component in _components)
+            {
+                component.RegisterEvents(mouseInput);
+            }
         }
 
         protected bool InScreenBounds(int x, int y)

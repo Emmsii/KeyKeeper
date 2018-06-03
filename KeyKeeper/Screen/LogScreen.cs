@@ -15,14 +15,22 @@ namespace KeyKeeper.Screen
     {
 
         private readonly MessageLogManager _messageLog;
+        private readonly Font _font;
 
         public LogScreen(int x, int y, int width, int height, bool hasBorder, MessageLogManager messageLog) : base(x, y, width, height, hasBorder)
         {
             _messageLog = messageLog;
+            _font = Assets.GetFont("font");
         }
 
         public override void Draw(SpriteBatch batch)
         {
+            int line = 0;
+            
+            foreach (ColoredMessage message in _messageLog.GetLastMessage(Height))
+            {
+                Renderer.DrawString(batch, _font, message.Message, X, Y + line++, message.Color);
+            }
 
             base.Draw(batch);
         }

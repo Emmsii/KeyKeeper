@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,33 +9,42 @@ namespace KeyKeeper.Managers
 {
     public class MessageLogManager
     {
-        private List<string> _messages = new List<string>();
+        private readonly Color DefaultMessageColor = Color.White;
 
-        public void AddMessage(string message)
+        private List<ColoredMessage> _messages = new List<ColoredMessage>();
+
+        public int Count => _messages.Count;
+
+        public void AddMessage(string message, Color? color = null)
         {
             if (string.IsNullOrWhiteSpace(message))
             {
                 return;
             }
-            _messages.Add(message.Trim());
+
+            _messages.Add(new ColoredMessage(message.Trim(), color ?? DefaultMessageColor));
         }
 
-        public List<string> GetMessages()
+        public List<ColoredMessage> GetMessages()
         {
             return _messages;
         }
 
-        public IEnumerable<string> GetLastMessage(int count)
+        public IEnumerable<ColoredMessage> GetLastMessage(int count)
         {
-            if(count <= 0)
-            {
-                throw new ArgumentException("Cannot get less than 1 messages.");
-            }
+            return _messages.Skip(Math.Max(0, _messages.Count() - count));
+        }
+    }
 
-            for(int i = _messages.Count - 1; i >= Math.Min(0, count); i--)
-            {
-                yield return _messages[i];
-            }
+    public class ColoredMessage
+    {
+        public string Message { get; }
+        public Color Color { get; }
+        
+        public ColoredMessage(string message, Color color)
+        {
+            Message = message;
+            Color = color;
         }
     }
 }

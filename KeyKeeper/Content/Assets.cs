@@ -158,6 +158,7 @@ namespace KeyKeeper.Content
             AddSprite("border_horizontal_bottom", ui.CutSprite(1, 1, UI_SPRITE_SCALE, "border_horizontal_bottom"));
             AddSprite("dot", ui.CutSprite(2, 1, UI_SPRITE_SCALE, "dot"));
             AddSprite("dither_fill", ui.CutSprite(3, 1, UI_SPRITE_SCALE, "dither_fill"));
+            AddSprite("fill", ui.CutSprite(4, 1, UI_SPRITE_SCALE, "fill"));
         }
 
         private static void LoadTileTypes()

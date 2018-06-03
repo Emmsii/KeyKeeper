@@ -71,6 +71,8 @@
     <Compile Include="Helpers\Game\GameResult.cs" />
     <Compile Include="Helpers\Line.cs" />
     <Compile Include="Helpers\Pool.cs" />
+    <Compile Include="Input\MouseEventArgs.cs" />
+    <Compile Include="Input\MouseInputHandler.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IBuilder.cs" />
     <Compile Include="Interfaces\IMap.cs" />
@@ -97,6 +99,9 @@
     <Compile Include="Screen\BaseScreen.cs" />
     <Compile Include="Screen\LogScreen.cs" />
     <Compile Include="Screen\StatScreen.cs" />
+    <Compile Include="Screen\UI\Button.cs" />
+    <Compile Include="Screen\UI\Component.cs" />
+    <Compile Include="Screen\UI\Label.cs" />
     <Compile Include="World\BaseMap.cs" />
     <Compile Include="World\Cell.cs" />
     <Compile Include="World\CellMap.cs" />

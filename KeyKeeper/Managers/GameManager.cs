@@ -3,6 +3,7 @@ using KeyKeeper.Content;
 using KeyKeeper.Entities;
 using KeyKeeper.Entities.AI;
 using KeyKeeper.Generators;
+using KeyKeeper.Input;
 using KeyKeeper.Interfaces;
 using KeyKeeper.Managers.Replays;
 using KeyKeeper.Screen;
@@ -44,9 +45,16 @@ namespace KeyKeeper.Managers
             WorldSeed = Random.Next();
 
             _baseScreen = new BaseScreen(0, 0, widthInTiles, heightInTiles, false);
-            _baseScreen.AddScreen(new LevelScreen(0, 0, 48, 30, true, this));
-            //_baseScreen.AddScreen(new StatScreen(24, 0, 13, 23, 2, true));
-            _basescreen.addscreen(new logscreen(0, 15, 24, 8, 2, true));
+            _baseScreen.AddScreen(new LevelScreen(0, 0, 54, 34, true, this));
+            _baseScreen.AddScreen(new StatScreen(54, 0, 20, 46, true));
+            _baseScreen.AddScreen(new LogScreen(0, 34, 54, 12, true, _messageLogManager));
+
+            
+
+            //for(int i = 0; i < 14; i++)
+            //{
+            //    _messageLogManager.AddMessage($"[{i}] adfsgsghgjshkdfghzdfgadfhdh");
+            //}
 
             //LevelScreen levelScreen = new LevelScreen(2, 3, 5, 5, 2, true, this);
             //levelScreen.ParentAnchorPosition = Alignment.None;
@@ -62,8 +70,10 @@ namespace KeyKeeper.Managers
             _replayCaptureManager.StartNewReplay();
         }
 
-        public void Init()
+        public void Init(MouseInputHandler mouseInput)
         {
+            _baseScreen.RegisterEvents(mouseInput);
+
             GameWorld = new WorldGenerator(80, 80, 1, WorldSeed).Generate().Build();
 
             Hero = new Hero(Assets.GetSpecies("hero"));
@@ -82,6 +92,11 @@ namespace KeyKeeper.Managers
         public void Input(Keys key)
         {
             Hero.Input(key);
+
+            if(key == Keys.Space)
+            {
+                _messageLogManager.AddMessage("Hello world " + _messageLogManager.Count);
+            }
         }
 
         public void Update()

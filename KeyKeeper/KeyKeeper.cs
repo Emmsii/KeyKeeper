@@ -21,6 +21,7 @@ namespace KeyKeeper
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private MouseInputHandler _mouseInput = new MouseInputHandler();
         private DelayedInputHandler _delayedInput = new DelayedInputHandler(20, 2);    
                 
         private GameManager _gameManager;
@@ -33,6 +34,10 @@ namespace KeyKeeper
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             _delayedInput.InputFireEvent += HandleInputEvent;
+
+            //_mouseInput.OnMouseMove += (sender, args) => Console.WriteLine("mouse moved!");
+            //_mouseInput.OnMouseDown += (sender, args) => Console.WriteLine("mouse down!");
+            //_mouseInput.OnMouseReleased += (sender, args) => Console.WriteLine("mouse released!");
 
             _graphics.PreferredBackBufferWidth = Assets.DEFAULT_TEXTURE_WIDTH * Assets.UI_SPRITE_SCALE * _widthInTiles;
             _graphics.PreferredBackBufferHeight = Assets.DEFAULT_TEXTURE_HEIGHT * Assets.UI_SPRITE_SCALE * _heightInTiles;
@@ -58,7 +63,7 @@ namespace KeyKeeper
             Assets.LoadAssets(Content);
 
             _gameManager = new GameManager(Environment.TickCount, _widthInTiles, _heightInTiles);
-            _gameManager.Init();
+            _gameManager.Init(_mouseInput);
             // TODO: use this.Content to load your game content here
         }
 
@@ -87,6 +92,7 @@ namespace KeyKeeper
 
             // TODO: Add your update logic here
             _delayedInput.Update(Keyboard.GetState());
+            _mouseInput.Update(_graphics.GraphicsDevice.Viewport);
             _gameManager.Update();
 
             base.Update(gameTime);

@@ -1,5 +1,6 @@
 ﻿using KeyKeeper.Content;
 using KeyKeeper.Graphics;
+using KeyKeeper.Screen.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -21,6 +22,10 @@ namespace KeyKeeper.Screen
         public StatScreen(int x, int y, int width, int height, bool hasBorder) : base(x, y, width, height, hasBorder)
         {
             _font = Assets.GetFont("font");
+
+            AddComponent(new Label(0, 0, "Hello World", Color.Lime));
+
+            AddComponent(new Button(0, 2, 6, new Label(0, 0, "Hello", Color.Red), Color.Black, Color.Gray, Color.White));
         }
 
 
