@@ -14,34 +14,71 @@ namespace KeyKeeper.Graphics
     {
         private static Rectangle _destination = new Rectangle();
 
-        public static void DrawSprite(SpriteBatch batch, Sprite sprite, int x, int y, int scale, Color color)
+        public static void DrawSprite(SpriteBatch batch, Sprite sprite, int x, int y, Color color)
         {
-            _destination.X = x * sprite.Width * scale;
-            _destination.Y = y * sprite.Width * scale;
-            _destination.Width = sprite.Width * scale;
-            _destination.Height = sprite.Height * scale;
+            DrawSprite(batch, sprite, x, y, 0, 0, color);
+        }
+
+        public static void DrawSprite(SpriteBatch batch, Sprite sprite, int x, int y, int offsetX, int offsetY, Color color)
+        {
+            _destination.X = (x * sprite.Width * sprite.Scale) + offsetY;
+            _destination.Y = (y * sprite.Height * sprite.Scale) + offsetY;
+            _destination.Width = sprite.Width * sprite.Scale;
+            _destination.Height = sprite.Height * sprite.Scale;
 
             batch.Draw(sprite.Texture, _destination, sprite.Bounds, color);
         }
 
-        public static void DrawBox(SpriteBatch batch, int x, int y, int width, int height, int scale, Color borderColor)
+        public static void DrawString(SpriteBatch batch, Font font, string text, int x, int y, int positionScaleX, int positionScaleY, int fontScale, Color color)
         {
-            DrawSprite(batch, Assets.GetSprite("border_top_right"), x, y, scale, borderColor);
-            DrawSprite(batch, Assets.GetSprite("border_top_left"), x + width, y, scale, borderColor);
-            DrawSprite(batch, Assets.GetSprite("border_bottom_right"), x, y + height, scale, borderColor);
-            DrawSprite(batch, Assets.GetSprite("border_bottom_left"), x + width, y + height, scale, borderColor);
+            if(font == null)
+            {
+                throw new ArgumentNullException(nameof(text), "Cannot draw string with null font.");
+            }
 
-            DrawLineOfSprites(batch, Assets.GetSprite("border_vertical"), x, y + 1, x, y + height - 1, scale, borderColor);
-            DrawLineOfSprites(batch, Assets.GetSprite("border_vertical"), x + width, y + 1, x + width, y + height - 1, scale, borderColor);
-            DrawLineOfSprites(batch, Assets.GetSprite("border_horizontal"), x + 1, y, x + width - 1, y, scale, borderColor);
-            DrawLineOfSprites(batch, Assets.GetSprite("border_horizontal"), x + 1, y + height, x + width - 1, y + height, scale, borderColor);
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+
+            if(positionScaleY == 1)
+            {
+                y++;
+            }
+
+            int offset = 0;
+
+            foreach(char character in text)
+            {
+                Sprite charSprite = font.GetCharacterSprite(character);
+
+                _destination.X = x * charSprite.Width * positionScaleX * 2 + (charSprite.Width * fontScale / 2) + (offset++ * charSprite.Width * fontScale);
+                _destination.Y = y * charSprite.Height * positionScaleY;
+                _destination.Width = charSprite.Width * fontScale;
+                _destination.Height = charSprite.Height * fontScale;
+
+                batch.Draw(charSprite.Texture, _destination, charSprite.Bounds, color);
+            }
+        }      
+
+        public static void DrawBox(SpriteBatch batch, int x, int y, int width, int height, Color borderColor)
+        {
+            DrawSprite(batch, Assets.GetSprite("border_top_right"), x, y, borderColor);
+            DrawSprite(batch, Assets.GetSprite("border_top_left"), x + width, y, borderColor);
+            DrawSprite(batch, Assets.GetSprite("border_bottom_right"), x, y + height, borderColor);
+            DrawSprite(batch, Assets.GetSprite("border_bottom_left"), x + width, y + height, borderColor);
+
+            DrawLineOfSprites(batch, Assets.GetSprite("border_vertical"), x, y + 1, x, y + height - 1, borderColor);
+            DrawLineOfSprites(batch, Assets.GetSprite("border_vertical"), x + width, y + 1, x + width, y + height - 1, borderColor);
+            DrawLineOfSprites(batch, Assets.GetSprite("border_horizontal"), x + 1, y, x + width - 1, y, borderColor);
+            DrawLineOfSprites(batch, Assets.GetSprite("border_horizontal"), x + 1, y + height, x + width - 1, y + height, borderColor);
         }
 
-        public static void DrawLineOfSprites(SpriteBatch batch, Sprite sprite, int x0, int y0, int x1, int y1, int scale, Color color)
+        public static void DrawLineOfSprites(SpriteBatch batch, Sprite sprite, int x0, int y0, int x1, int y1, Color color)
         {
             foreach(Point point in new Line(x0, y0, x1, y1))
             {
-                DrawSprite(batch, sprite, point.X, point.Y, scale, color);
+                DrawSprite(batch, sprite, point.X, point.Y, color);
             }
         }
     }

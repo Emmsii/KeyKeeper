@@ -21,12 +21,14 @@ namespace KeyKeeper.Graphics
             Texture = texture;
         }
 
-        public Sprite CutSprite(int x, int y, string name)
+        public Sprite CutSprite(int x, int y, int scale, string name)
         {
             return new Sprite(Texture,
                               new Rectangle(x * SpriteWidth, y * SpriteHeight, SpriteWidth, SpriteHeight),
                               SpriteWidth,
-                              SpriteHeight);
+                              SpriteHeight,
+                              scale,
+                              name);
         }
     }
 }

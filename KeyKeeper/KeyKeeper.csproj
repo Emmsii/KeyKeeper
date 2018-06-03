@@ -60,6 +60,7 @@
     <Compile Include="Generators\BaseLevelGenerator.cs" />
     <Compile Include="Generators\CaveLevelGenerator.cs" />
     <Compile Include="Generators\WorldGenerator.cs" />
+    <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\Spritesheet.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Managers\CreatureManager.cs" />
     <Compile Include="Managers\EnergyManager.cs" />
     <Compile Include="Managers\GameManager.cs" />
+    <Compile Include="Managers\MessageLogManager.cs" />
     <Compile Include="Managers\Replays\BaseReplayManager.cs" />
     <Compile Include="Managers\Replays\ReplayCaptureManager.cs" />
     <Compile Include="Managers\Replays\ReplayEvent.cs" />
@@ -90,8 +92,11 @@
     <Compile Include="Managers\Replays\ReplayTagManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\Alignment.cs" />
     <Compile Include="Screen\LevelScreen.cs" />
     <Compile Include="Screen\BaseScreen.cs" />
+    <Compile Include="Screen\LogScreen.cs" />
+    <Compile Include="Screen\StatScreen.cs" />
     <Compile Include="World\BaseMap.cs" />
     <Compile Include="World\Cell.cs" />
     <Compile Include="World\CellMap.cs" />

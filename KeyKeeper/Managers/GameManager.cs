@@ -24,7 +24,9 @@ namespace KeyKeeper.Managers
         public int WorldSeed { get; }
 
         private readonly ReplayCaptureManager<IAction> _replayCaptureManager;
+        private readonly MessageLogManager _messageLogManager = new MessageLogManager();
         private readonly CreatureManager _creatureManager = new CreatureManager();
+
         public GameWorld GameWorld { get; private set; }
         public Hero Hero { get; private set; }
 
@@ -41,9 +43,15 @@ namespace KeyKeeper.Managers
             Random = new Random(GameSeed);
             WorldSeed = Random.Next();
 
-            _baseScreen = new BaseScreen(0, 0, widthInTiles, heightInTiles, 2, true);
-            _baseScreen.AddScreen(new LevelScreen(0, 0, 12, 12, 2, true, this));
-            _baseScreen.AddScreen(new LevelScreen(27, 1, 12, 12, 1, true, this));
+            _baseScreen = new BaseScreen(0, 0, widthInTiles, heightInTiles, false);
+            _baseScreen.AddScreen(new LevelScreen(0, 0, 48, 30, true, this));
+            //_baseScreen.AddScreen(new StatScreen(24, 0, 13, 23, 2, true));
+            _basescreen.addscreen(new logscreen(0, 15, 24, 8, 2, true));
+
+            //LevelScreen levelScreen = new LevelScreen(2, 3, 5, 5, 2, true, this);
+            //levelScreen.ParentAnchorPosition = Alignment.None;
+            //levelScreen.SelfAnchorPosition = Alignment.Left;
+            //_baseScreen.AddScreen(levelScreen);
             //_levelScreen = new LevelScreen(0, 0, 12, 12, 2, this);
 
             _replayCaptureManager = new ReplayCaptureManager<IAction>(this, "Replays/");
@@ -56,7 +64,7 @@ namespace KeyKeeper.Managers
 
         public void Init()
         {
-            GameWorld = new WorldGenerator(12, 12, 1, WorldSeed).Generate().Build();
+            GameWorld = new WorldGenerator(80, 80, 1, WorldSeed).Generate().Build();
 
             Hero = new Hero(Assets.GetSpecies("hero"));
             new HeroAi(Hero);

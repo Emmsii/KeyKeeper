@@ -25,7 +25,17 @@ namespace KeyKeeper.Generators
                     }
                     else
                     {
-                        _map.SetTileType(x, y, Assets.GetTileType("floor"));
+                        int r = _random.Next(2);
+                        switch (r)
+                        {
+                            case 0:
+                                _map.SetTileType(x, y, Assets.GetTileType("floor"));
+                                break;
+                            case 1:
+                                _map.SetTileType(x, y, Assets.GetTileType("floor2"));
+                                break;
+                        }
+                        
                     }
                     //if(_random.NextDouble() < 0.5)
                     //{

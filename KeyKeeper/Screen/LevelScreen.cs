@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KeyKeeper.Content;
 using KeyKeeper.Graphics;
 using KeyKeeper.Managers;
 using KeyKeeper.World;
@@ -15,36 +16,45 @@ namespace KeyKeeper.Screen
     {
         private readonly GameManager _gameManager;
 
-        private int ScrollX => Math.Max(0, Math.Min(_gameManager.Hero.X - (Width) / 2, CurrentLevel.Width - (Width)));
-        private int ScrollY => Math.Max(0, Math.Min(_gameManager.Hero.Y - (Height) / 2, CurrentLevel.Height - (Height)));
+        private readonly int _widthInTiles;
+        private readonly int _heightInTiles;
+
+        private int ScrollX => Math.Max(0, Math.Min(_gameManager.Hero.X - (_widthInTiles) / 2, CurrentLevel.Width - (_widthInTiles)));
+        private int ScrollY => Math.Max(0, Math.Min(_gameManager.Hero.Y - (_heightInTiles) / 2, CurrentLevel.Height - (_heightInTiles)));
 
         private GameLevel CurrentLevel => _gameManager.GameWorld.GetLevel(_gameManager.Hero.Depth);
 
-        public LevelScreen(int x, int y, int width, int height, int scale, bool hasBorder, GameManager gameManager) : base(x, y, width, height, scale, hasBorder)
+        public LevelScreen(int x, int y, int width, int height, bool hasBorder, GameManager gameManager) : base(x, y, width, height, hasBorder)
         {
             _gameManager = gameManager;
+
+            _widthInTiles = Width / Assets.TEXTURE_SCALE;
+            _heightInTiles = Height / Assets.TEXTURE_SCALE;
         }
 
         public override void Draw(SpriteBatch batch)
         {
-            //GameLevel level = _gameManager.GameWorld.GetLevel(_gameManager.Hero.Depth);
-
             int sx = ScrollX;
             int sy = ScrollY;
 
-            for (int ya = 0; ya < Height; ya++)
+            for (int ya = 0; ya < _heightInTiles; ya++)
             {
                 int yp = ya + sy;
-                for(int xa = 0; xa < Width; xa++)
+                for (int xa = 0; xa < _widthInTiles; xa++)
                 {
                     int xp = xa + sx;
-                    DrawCell(CurrentLevel.GetCell(xp, yp), xa + X, ya + Y, batch);
+                    DrawCell(batch, CurrentLevel.GetCell(xp, yp), xa + X, ya + Y);
                 }
             }
 
-            foreach(var creature in _gameManager.GameWorld.GetCreatures(_gameManager.Hero.Depth))
+            foreach (var creature in _gameManager.GameWorld.GetCreatures(_gameManager.Hero.Depth))
             {
-                Renderer.DrawSprite(batch, creature.Sprite, creature.X - sx + X, creature.Y - sy + Y, Scale, creature.ForegroundColor);
+                int x = creature.X - sx + X;
+                int y = creature.Y - sy + Y;
+                if (InScreenBounds(x * Assets.TEXTURE_SCALE, y * Assets.TEXTURE_SCALE))
+                {
+                    DrawLevelSprite(batch, creature.Sprite, x, y, creature.ForegroundColor);
+                }
             }
 
             base.Draw(batch);
@@ -55,10 +65,23 @@ namespace KeyKeeper.Screen
             throw new NotImplementedException();
         }
 
-        private void DrawCell(Cell cell, int xp, int yp, SpriteBatch batch)
+        private void DrawCell(SpriteBatch batch, Cell cell, int xp, int yp)
         {
-            if (cell == null) return;
-            Renderer.DrawSprite(batch, cell.Sprite, xp, yp, Scale, cell.ForegroundColor);
+            if (cell != null)
+            {
+                DrawLevelSprite(batch, cell.Sprite, xp, yp, cell.ForegroundColor);
+            }
+        }
+
+        private void DrawLevelSprite(SpriteBatch batch, Sprite sprite, int xp, int yp, Color color)
+        {
+            Renderer.DrawSprite(batch,
+                sprite,
+                xp,
+                yp,
+                HasBorder ? -((Assets.DEFAULT_TEXTURE_WIDTH * Assets.TEXTURE_SCALE) / 2) : 0,
+                HasBorder ? -((Assets.DEFAULT_TEXTURE_HEIGHT * Assets.TEXTURE_SCALE) / 2) : 0,
+                color);
         }
     }
 }

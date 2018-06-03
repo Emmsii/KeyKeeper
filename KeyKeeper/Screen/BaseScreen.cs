@@ -1,5 +1,6 @@
 ﻿using KeyKeeper.Content;
 using KeyKeeper.Graphics;
+using KeyKeeper.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,6 +13,10 @@ namespace KeyKeeper.Screen
 {
     public class BaseScreen
     {
+
+        public Alignment ParentAnchorPosition { get; set; } = Alignment.None;
+        public Alignment SelfAnchorPosition { get; set; } = Alignment.None;
+
         private int _x;
         private int _y;
         private int _width;
@@ -19,7 +24,34 @@ namespace KeyKeeper.Screen
 
         protected int X {
             get {
-                return Parent?.X + _x ?? _x;
+
+                if (Parent != null)
+                {
+                    int x;
+                    switch (ParentAnchorPosition)
+                    {
+                        case Alignment.Center:
+                            x = Parent.X + (Parent.Width / 2) + SelfX;
+                            break;
+                        case Alignment.Left:
+                        case Alignment.BottomLeft:
+                        case Alignment.TopLeft:
+                            x = Parent.X;
+                            break;
+                        case Alignment.Right:
+                        case Alignment.TopRight:
+                        case Alignment.BottomRight:
+                            x = Parent.X + Parent.Width;
+                            break;
+                        case Alignment.None:
+                        default:
+                            x = Parent.X + _x;
+                            break;
+                    }
+
+                    return HasBorder ? x + 1 : x;
+                }
+                return _x;
             }
             private set {
                 _x = value;
@@ -27,10 +59,83 @@ namespace KeyKeeper.Screen
         }
         protected int Y {
             get {
-                return Parent?.Y + _y ?? _y;
+
+                if (Parent != null)
+                {
+                    int y;
+                    switch (ParentAnchorPosition)
+                    {
+                        case Alignment.Center:
+                            y = Parent.Y + (Parent.Height / 2) + SelfY;
+                            break;
+                        case Alignment.Top:
+                        case Alignment.TopLeft:
+                        case Alignment.TopRight:
+                            y = Parent.Y;
+                            break;
+                        case Alignment.Bottom:
+                        case Alignment.BottomLeft:
+                        case Alignment.BottomRight:
+                            y = Parent.Y + Parent.Height;
+                            break;
+                        case Alignment.None:
+                        default:
+                            y = Parent.Y + _y;
+                            break;
+                    }
+
+                    return HasBorder ? y + 1 : y;
+                }
+                return _x;
             }
             private set {
                 _y = value;
+            }
+        }
+
+        private int SelfX {
+            get {
+                int x;
+                switch (SelfAnchorPosition)
+                {
+                    case Alignment.Center:
+                        x = Width / 2;
+                        break;
+                    case Alignment.BottomRight:
+                        x = Width;
+                        break;
+                    case Alignment.TopRight:
+                        x = Width;
+                        break;
+                    case Alignment.TopLeft:
+                    case Alignment.None:
+                    default:
+                        return 0;
+                }
+                return -(x + 1);
+            }
+        }
+
+        private int SelfY {
+            get {
+                int y;
+                switch (SelfAnchorPosition)
+                {
+                    case Alignment.Center:
+                        y = Height / 2;
+                        break;
+                    case Alignment.BottomLeft:
+                    case Alignment.BottomRight:
+                        y = Height;
+                        break;
+                    case Alignment.TopRight:
+                    case Alignment.TopLeft:
+                    case Alignment.None:
+                    default:
+                        return 0;
+                }
+
+                return -(y + 1);
             }
         }
 
@@ -51,21 +156,19 @@ namespace KeyKeeper.Screen
                 _height = value;
             }
         }
-        
-        protected int Scale { get; }
+
         protected bool HasBorder { get; }
 
         protected BaseScreen Parent { get; private set; }
 
         private List<BaseScreen> _screens = new List<BaseScreen>();
 
-        public BaseScreen(int x, int y, int width, int height, int scale, bool hasBorder)
+        public BaseScreen(int x, int y, int width, int height, bool hasBorder)
         {
-            X = hasBorder ? x + 1 : x;
-            Y = hasBorder ? y + 1 : y;
+            X = x;
+            Y = y;
             Width = hasBorder ? width - 2 : width;
             Height = hasBorder ? height - 2 : height;
-            Scale = scale;
             HasBorder = hasBorder;
         }
 
@@ -75,15 +178,18 @@ namespace KeyKeeper.Screen
             {
                 screen.Draw(batch);
             }
+
             if (HasBorder)
             {
                 DrawBorder(batch);
             }
+
+            //Renderer.DrawSprite(batch, Assets.GetSprite("dot"), X - 1 - SelfX, Y - 1 - SelfY, Color.LimeGreen * 0.75f);
         }
 
         private void DrawBorder(SpriteBatch batch)
         {
-            Renderer.DrawBox(batch, X - 1, Y - 1, Width + 1, Height + 1, Scale, Color.White);
+            Renderer.DrawBox(batch, X - 1, Y - 1, Width  + 1, Height  + 1, Color.White);
         }
 
         public void AddScreen(BaseScreen screen)
@@ -92,16 +198,10 @@ namespace KeyKeeper.Screen
             screen.Parent = this;
         }
 
-        //protected void DrawSprite(Sprite sprite, int xp, int yp, Color foregroundColor, Color backgroundColor, SpriteBatch batch)
-        //{
-        //    Rectangle destination = new Rectangle(xp * sprite.Width * Scale,
-        //                                          yp * sprite.Height * Scale,
-        //                                          sprite.Width * Scale,
-        //                                          sprite.Height * Scale);
+        protected bool InScreenBounds(int x, int y)
+        {
+            return x >= X && y >= Y && x < X + Width && y < Y + Height;
+        }
 
-        //    // TODO: Draw background color
-
-        //    batch.Draw(sprite.Texture, destination, sprite.Bounds, foregroundColor);
-        //}
     }
 }
