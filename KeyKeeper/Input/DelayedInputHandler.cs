@@ -9,7 +9,7 @@ namespace KeyKeeper.Input
 {
     internal class DelayedInputHandler
     {
-        public event EventHandler<InputEventArgs> InputFireEvent;
+        public event EventHandler<KeyEventArgs> InputFireEvent;
 
         private int _firstWaitTime = 22;
         private int _continuousWaitTime = 2;
@@ -68,7 +68,7 @@ namespace KeyKeeper.Input
 
         private void FireEvent(Keys key)
         {
-            InputFireEvent?.Invoke(this, new InputEventArgs(key));
+            InputFireEvent?.Invoke(this, new KeyEventArgs(key));
         }
 
         private void DecrementTimer()

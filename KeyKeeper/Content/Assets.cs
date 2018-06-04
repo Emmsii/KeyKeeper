@@ -159,6 +159,9 @@ namespace KeyKeeper.Content
             AddSprite("dot", ui.CutSprite(2, 1, UI_SPRITE_SCALE, "dot"));
             AddSprite("dither_fill", ui.CutSprite(3, 1, UI_SPRITE_SCALE, "dither_fill"));
             AddSprite("fill", ui.CutSprite(4, 1, UI_SPRITE_SCALE, "fill"));
+            AddSprite("button_left", ui.CutSprite(5, 1, UI_SPRITE_SCALE, "button_left"));
+            AddSprite("button_center", ui.CutSprite(6, 1, UI_SPRITE_SCALE, "button_center"));
+            AddSprite("button_right", ui.CutSprite(7, 1, UI_SPRITE_SCALE, "button_right"));
         }
 
         private static void LoadTileTypes()

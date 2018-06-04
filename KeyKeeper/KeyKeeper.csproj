@@ -80,7 +80,7 @@
     <Compile Include="KeyKeeper.cs" />
     <Compile Include="Input\Controls.cs" />
     <Compile Include="Input\DelayedInputHandler.cs" />
-    <Compile Include="Input\InputEventArgs.cs" />
+    <Compile Include="Input\KeyEventArgs.cs" />
     <Compile Include="Managers\CreatureManager.cs" />
     <Compile Include="Managers\EnergyManager.cs" />
     <Compile Include="Managers\GameManager.cs" />

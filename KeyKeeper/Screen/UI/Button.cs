@@ -23,10 +23,13 @@ namespace KeyKeeper.Screen.UI
         private readonly Color _clickColor;
 
         private Color _color;
+        private Color _fillColor;
 
         private bool _mouseDown;
 
-        public Button(int x, int y, int width, Label label, Color idleColor, Color hoverColor, Color clickColor) : base(x, y)
+        public bool ShowFill { get; set; }
+
+        public Button(int x, int y, int width, Label label, Color idleColor, Color hoverColor, Color clickColor, Color? fillColor = null) : base(x, y)
         {
             _label = label;
             _width = width;
@@ -37,22 +40,43 @@ namespace KeyKeeper.Screen.UI
             _label.ParentComponent = this;
 
             _color = _idleColor;
+            _fillColor = fillColor ?? Color.LightGray;
         }
 
         public override void Draw(SpriteBatch batch)
         {
-            for(int i = 0; i < _width; i++)
+            for (int i = 0; i < _width; i++)
             {
-                Renderer.DrawSprite(batch, Assets.GetSprite("fill"), X + i, Y, _color);
+                if (ShowFill)
+                {
+                    Renderer.DrawSprite(batch, Assets.GetSprite("fill"), X + i, Y, _fillColor);
+                }
+
+                Sprite backgroundSprite;
+
+                if (i == 0)
+                {
+                    backgroundSprite = Assets.GetSprite("button_left");
+                }
+                else if (i == _width - 1)
+                {
+                    backgroundSprite = Assets.GetSprite("button_right");
+                }
+                else
+                {
+                    backgroundSprite = Assets.GetSprite("button_center");
+                }
+
+                Renderer.DrawSprite(batch, backgroundSprite, X + i, Y, _color);
             }
-            
+
             _label.Draw(batch);
         }
 
         public override void OnMouseMove(object sender, MouseEventArgs args)
         {
             _color = _idleColor;
-            if(PositionIntersectsButton(args.X / Assets.DEFAULT_TEXTURE_WIDTH, args.Y / Assets.DEFAULT_TEXTURE_HEIGHT))
+            if (PositionIntersectsButton(args.X / Assets.DEFAULT_TEXTURE_WIDTH, args.Y / Assets.DEFAULT_TEXTURE_HEIGHT))
             {
                 _color = _hoverColor;
             }
@@ -68,7 +92,7 @@ namespace KeyKeeper.Screen.UI
                 _color = _clickColor;
             }
 
-            if(args.LeftButton == ButtonState.Released)
+            if (args.LeftButton == ButtonState.Released)
             {
                 _mouseDown = false;
                 if (mouseIntersectsButton)

@@ -12,17 +12,14 @@ namespace KeyKeeper
     public class KeyKeeper : Game
     {
 
-        //private const int _scale = 2;
-        //private const int _spriteWidth = 16;
-        //private const int _spriteHeight = 16;
         private const int _widthInTiles = 74;
         private const int _heightInTiles = 46;
 
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private MouseInputHandler _mouseInput = new MouseInputHandler();
-        private DelayedInputHandler _delayedInput = new DelayedInputHandler(20, 2);    
+        private readonly MouseInputHandler _mouseInput = new MouseInputHandler();
+        private readonly DelayedInputHandler _delayedInput = new DelayedInputHandler(20, 2);    
                 
         private GameManager _gameManager;
 
@@ -35,46 +32,34 @@ namespace KeyKeeper
             Content.RootDirectory = "Content";
             _delayedInput.InputFireEvent += HandleInputEvent;
 
-            //_mouseInput.OnMouseMove += (sender, args) => Console.WriteLine("mouse moved!");
-            //_mouseInput.OnMouseDown += (sender, args) => Console.WriteLine("mouse down!");
-            //_mouseInput.OnMouseReleased += (sender, args) => Console.WriteLine("mouse released!");
-
             _graphics.PreferredBackBufferWidth = Assets.DEFAULT_TEXTURE_WIDTH * Assets.UI_SPRITE_SCALE * _widthInTiles;
             _graphics.PreferredBackBufferHeight = Assets.DEFAULT_TEXTURE_HEIGHT * Assets.UI_SPRITE_SCALE * _heightInTiles;
-
-            //_widthInTiles = _graphics.PreferredBackBufferWidth / (_spriteWidth * _scale);
-            //_heightInTiles = _graphics.PreferredBackBufferHeight / (_spriteHeight * _scale);
 
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
- 
+        { 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Assets.LoadAssets(Content);
 
             _gameManager = new GameManager(Environment.TickCount, _widthInTiles, _heightInTiles);
             _gameManager.Init(_mouseInput);
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
-        private void HandleInputEvent(object sender, InputEventArgs args)
+        private void HandleInputEvent(object sender, KeyEventArgs args)
         {
-            // Handle input
             _gameManager.Input(args.Key);
         }
 
@@ -90,7 +75,6 @@ namespace KeyKeeper
                 _showDebugBoxes = !_showDebugBoxes;
             }
 
-            // TODO: Add your update logic here
             _delayedInput.Update(Keyboard.GetState());
             _mouseInput.Update(_graphics.GraphicsDevice.Viewport);
             _gameManager.Update();

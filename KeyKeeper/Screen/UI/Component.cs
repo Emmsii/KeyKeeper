@@ -15,9 +15,6 @@ namespace KeyKeeper.Screen.UI
         private int _x;
         private int _y;
 
-        // TODO; X, Y from anchor
-        public Alignment Anchor = Alignment.None;
-
         protected int X {
             get {
                 int x = _x;

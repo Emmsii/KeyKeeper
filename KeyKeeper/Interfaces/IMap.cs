@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Interfaces
 {
-    public interface IMap<T> 
+    public interface IMap<T>
     {
         T NullTile { get; }
 
@@ -17,5 +17,7 @@ namespace KeyKeeper.Interfaces
         T GetTile(int x, int y);
         void SetTile(int x, int y, T tile);
         bool InBounds(int x, int y);
+
+        T this[int index] { get; set; }
     }
 }

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace KeyKeeper.Input
 {
-    internal class InputEventArgs : EventArgs
+    internal class KeyEventArgs : EventArgs
     {
         public Keys Key { get; set; }
 
-        public InputEventArgs(Keys key)
+        public KeyEventArgs(Keys key)
         {
             Key = key;
         }

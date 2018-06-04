@@ -1,5 +1,6 @@
 ﻿using KeyKeeper.Content;
 using KeyKeeper.Graphics;
+using KeyKeeper.Helpers;
 using KeyKeeper.Screen.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +26,7 @@ namespace KeyKeeper.Screen
 
             AddComponent(new Label(0, 0, "Hello World", Color.Lime));
 
-            AddComponent(new Button(0, 2, 6, new Label(0, 0, "Hello", Color.Red), Color.Black, Color.Gray, Color.White));
+            AddComponent(new Button(0, 1, 5, new Label(1, 0, "Hello", Color.Red), Color.Gray, Color.LightGray, Color.White));
         }
 
 
