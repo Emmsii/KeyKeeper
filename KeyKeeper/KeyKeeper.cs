@@ -104,7 +104,7 @@ namespace KeyKeeper
         {
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Opaque);
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
             _gameManager.Draw(_spriteBatch);
             _spriteBatch.End();
 

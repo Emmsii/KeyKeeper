@@ -81,7 +81,8 @@ namespace KeyKeeper.Screen
                 yp,
                 HasBorder ? -((Assets.DEFAULT_TEXTURE_WIDTH * Assets.TEXTURE_SCALE) / 2) : 0,
                 HasBorder ? -((Assets.DEFAULT_TEXTURE_HEIGHT * Assets.TEXTURE_SCALE) / 2) : 0,
-                color);
+                color,
+                Color.Black);
         }
     }
 }

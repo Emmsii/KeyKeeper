@@ -14,22 +14,28 @@ namespace KeyKeeper.Graphics
     {
         private static Rectangle _destination = new Rectangle();
 
-        public static void DrawSprite(SpriteBatch batch, Sprite sprite, int x, int y, Color color)
+        public static void DrawSprite(SpriteBatch batch, Sprite sprite, int x, int y, Color foregroundColor, Color? backgroundColor = null)
         {
-            DrawSprite(batch, sprite, x, y, 0, 0, color);
+            DrawSprite(batch, sprite, x, y, 0, 0, foregroundColor, backgroundColor);
         }
 
-        public static void DrawSprite(SpriteBatch batch, Sprite sprite, int x, int y, int offsetX, int offsetY, Color color)
+        public static void DrawSprite(SpriteBatch batch, Sprite sprite, int x, int y, int offsetX, int offsetY, Color foregroundColor, Color? backgroundColor = null)
         {
             _destination.X = (x * sprite.Width * sprite.Scale) + offsetY;
             _destination.Y = (y * sprite.Height * sprite.Scale) + offsetY;
             _destination.Width = sprite.Width * sprite.Scale;
             _destination.Height = sprite.Height * sprite.Scale;
 
-            batch.Draw(sprite.Texture, _destination, sprite.Bounds, color);
+            if(backgroundColor != null)
+            {
+                Sprite fillSprite = Assets.GetSprite("fill");
+                batch.Draw(fillSprite.Texture, _destination, fillSprite.Bounds, backgroundColor ?? Color.Black);
+            }
+
+            batch.Draw(sprite.Texture, _destination, sprite.Bounds, foregroundColor);
         }
 
-        public static void DrawString(SpriteBatch batch, Font font, string text, int x, int y, Color color)
+        public static void DrawString(SpriteBatch batch, Font font, string text, int x, int y, Color foregroundColor, Color? backgroundColor = null)
         {
             if(font == null)
             {
@@ -52,7 +58,13 @@ namespace KeyKeeper.Graphics
                 _destination.Width = charSprite.Width;
                 _destination.Height = charSprite.Height;
 
-                batch.Draw(charSprite.Texture, _destination, charSprite.Bounds, color);
+                if (backgroundColor != null)
+                {
+                    Sprite fillSprite = Assets.GetSprite("fill");
+                    batch.Draw(fillSprite.Texture, _destination, fillSprite.Bounds, backgroundColor ?? Color.Black);
+                }
+
+                batch.Draw(charSprite.Texture, _destination, charSprite.Bounds, foregroundColor);
             }
         }      
 
@@ -69,11 +81,11 @@ namespace KeyKeeper.Graphics
             DrawLineOfSprites(batch, Assets.GetSprite("border_horizontal"), x + 1, y + height, x + width - 1, y + height, borderColor);
         }
 
-        public static void DrawLineOfSprites(SpriteBatch batch, Sprite sprite, int x0, int y0, int x1, int y1, Color color)
+        public static void DrawLineOfSprites(SpriteBatch batch, Sprite sprite, int x0, int y0, int x1, int y1, Color foregroundColor, Color? backgroundColor = null)
         {
             foreach(Point point in new Line(x0, y0, x1, y1))
             {
-                DrawSprite(batch, sprite, point.X, point.Y, color);
+                DrawSprite(batch, sprite, point.X, point.Y, foregroundColor, backgroundColor);
             }
         }
     }
