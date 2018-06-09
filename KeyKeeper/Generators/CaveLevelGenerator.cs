@@ -13,53 +13,101 @@ namespace KeyKeeper.Generators
     internal class CaveLevelGenerator : BaseLevelGenerator
     {
 
+        private readonly TileType[] _emptyTiles;
+        private readonly TileType[] _solidTiles;
+
         public CaveLevelGenerator(int width, int height, int depth, int seed) : base(width, height, depth, seed)
         {
-            for (int y = 0; y < height; y++)
+            _emptyTiles = new TileType[]
             {
-                for(int x = 0; x < width; x++)
+                Assets.GetTileType("floor_dot")
+            };
+
+            _solidTiles = new TileType[]
+            {
+                Assets.GetTileType("rocks_1"),
+                Assets.GetTileType("rocks_2"),
+            };
+        }
+
+        //public override IBuilder<GameLevel> Generate()
+        //{
+        //    FillWithType(_solidTiles);
+        //    AddRandomTiles(_emptyTiles, 50);
+
+        //    SmoothTiles(8, _emptyTiles, _solidTiles);
+
+        //    return this;
+        //}
+
+        private void SmoothTiles(int count, TileType[] emptyTile, TileType[] solidTile )
+        {
+            TileType[,] newTypes = new TileType[_width, _height];
+
+            for (int i = 0; i < count; i++)
+            {
+                for (int y = 0; y < _height; y++)
                 {
-                    if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
+                    for (int x = 0; x < _width; x++)
                     {
-                        _map.SetTileType(x, y, Assets.GetTileType("wall"));
+                        SmoothTile(x, y, newTypes, emptyTile, solidTile);
+                    }
+                }
+
+                ReplaceTileTypes(newTypes);
+            }
+        }
+
+        private void SmoothTile(int x, int y, TileType[,] newTypes, TileType[] emptyTiles, TileType[] solidTiles)
+        {
+            int floors = 0;
+            int walls = 0;
+
+            for (int oy = -1; oy <= 1; oy++)
+            {
+                int ya = y + oy;
+                for (int ox = -1; ox <= 1; ox++)
+                {
+                    int xa = x + ox;
+                    if (!_map.InBounds(xa, ya))
+                    {
+                        continue;
+                    }
+
+                    if (emptyTiles.Contains(_map.GetTileType(xa, ya)))
+                    {
+                        floors++;
                     }
                     else
                     {
-                        int r = _random.Next(2);
-                        switch (r)
-                        {
-                            case 0:
-                                _map.SetTileType(x, y, Assets.GetTileType("floor"));
-                                break;
-                            case 1:
-                                _map.SetTileType(x, y, Assets.GetTileType("floor2"));
-                                break;
-                        }
-                        
+                        walls++;
                     }
-                    //if(_random.NextDouble() < 0.5)
-                    //{
-                    //    _map.SetTile(x, y, Assets.GetCellType("wall").NewCellFromType());
-                    //}
-                    //else
-                    //{
-                    //    _map.SetTile(x, y, Assets.GetCellType("floor").NewCellFromType());
-                    //}
                 }
             }
 
-
-            if(depth != 0)
-            {
-                _map.SetTileType(_random.Next(1, width - 2), _random.Next(1, height - 2), Assets.GetTileType("stairs_up"));
-            }
-
-            _map.SetTileType(_random.Next(1, width - 2), _random.Next(1, height - 2), Assets.GetTileType("stairs_down"));
+            int rand = _random.Next(floors >= walls ? emptyTiles.Length : solidTiles.Length);
+            newTypes[x, y] = floors >= walls ? emptyTiles[rand] : solidTiles[rand];
         }
 
-        public override IBuilder<GameLevel> Generate()
+        private void ReplaceTileTypes(TileType[,] newTypes)
         {
-            return this;
+            for (int y = 0; y < _height; y++)
+            {
+                for (int x = 0; x < _width; x++)
+                {
+                    _map.SetTileType(x, y, newTypes[x, y]);
+                }
+            }
+        }
+
+        protected override bool IsMapValid()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InitializeStrategies()
+        {
+            throw new NotImplementedException();
         }
     }
 }

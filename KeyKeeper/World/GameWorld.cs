@@ -91,5 +91,19 @@ namespace KeyKeeper.World
             if (depth < 0 || depth >= _levels.Length) throw new ArgumentOutOfRangeException($"Cannot get level ({depth}) less than 0 or greater than {_levels.Length - 1}.");
             return _levels[depth];
         }
+
+        public Point GetRandomEmptyPoint(int depth)
+        {
+            int x, y;
+            GameLevel level = GetLevel(depth);
+            Random random = new Random(); // TODO: FOR THE LOVE OF GOD, USE THE GAME MANAGER RANDOM!
+            do
+            {
+                x = random.Next(level.Width);
+                y = random.Next(level.Height);
+            } while (level.IsSolid(x, y) || GetCreature(x, y, depth) != null);
+
+            return new Point(x, y);
+        }
     }
 }

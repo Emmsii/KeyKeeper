@@ -45,7 +45,7 @@ namespace KeyKeeper.Generators
 
             for (int z = 0; z < _depth; z++)
             {
-                _levels[z] = new CaveLevelGenerator(_width, _height, z, _random.Next()).Generate().Build();
+                _levels[z] = new RoomLevelGenerator(_width, _height, z, _random.Next()).Generate().Build();
             }
 
             watch.Stop();

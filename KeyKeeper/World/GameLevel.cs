@@ -18,6 +18,7 @@ namespace KeyKeeper.World
 
         public bool InBounds(int x, int y) => _cellMap.InBounds(x, y);
         public bool IsExplored(int x, int y) =>  _exploredMap.GetTile(x, y);
+        public bool IsSolid(int x, int y) => GetCell(x, y).IsSolid;
         public bool IsTransparent(int x, int y) => GetCell(x, y).IsTransparent;
 
         public Cell GetCell(int x, int y) => _cellMap.GetTile(x, y);

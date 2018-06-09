@@ -49,8 +49,6 @@ namespace KeyKeeper.Managers
             _baseScreen.AddScreen(new StatScreen(54, 0, 20, 46, true));
             _baseScreen.AddScreen(new LogScreen(0, 34, 54, 12, true, _messageLogManager));
 
-            
-
             //for(int i = 0; i < 14; i++)
             //{
             //    _messageLogManager.AddMessage($"[{i}] adfsgsghgjshkdfghzdfgadfhdh");
@@ -81,11 +79,11 @@ namespace KeyKeeper.Managers
 
             Hero.NewActionSetEvent += _replayCaptureManager.AddReplayEvent;
 
-            GameWorld.AddCreature(new Point(10, 10), 0, Hero);
+            GameWorld.AddCreature(GameWorld.GetRandomEmptyPoint(0), 0, Hero);
 
             Monster monster = new Monster(Assets.GetSpecies("troll"));
             new MonsterAi(monster);
-            GameWorld.AddCreature(new Point(1, 1), 0, monster);
+            GameWorld.AddCreature(GameWorld.GetRandomEmptyPoint(0), 0, monster);
 
         }
 

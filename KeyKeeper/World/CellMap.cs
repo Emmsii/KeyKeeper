@@ -15,9 +15,9 @@ namespace KeyKeeper.World
 
         private void InitializeMap()
         {
-            for(int y = 0; y < Height; y++)
+            for (int y = 0; y < Height; y++)
             {
-                for(int x = 0; x < Width; x++)
+                for (int x = 0; x < Width; x++)
                 {
                     SetTile(x, y, new Cell(NullTile.TileType));
                 }
@@ -27,6 +27,11 @@ namespace KeyKeeper.World
         public void SetTileType(int x, int y, TileType tileType)
         {
             GetTile(x, y).TileType = tileType;
+        }
+
+        public TileType GetTileType(int x, int y)
+        {
+            return GetTile(x, y).TileType;
         }
     }
 }

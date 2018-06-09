@@ -132,10 +132,29 @@ namespace KeyKeeper.Content
             Spritesheet creatures = GetSpritesheet("creatures");
             Spritesheet ui = GetSpritesheet("ui");
 
-            AddSprite("wall", tiles.CutSprite(0, 0, TEXTURE_SCALE, "wall"));
-            AddSprite("floor", tiles.CutSprite(3, 0, TEXTURE_SCALE, "floor"));
-            AddSprite("floor2", tiles.CutSprite(4, 0, TEXTURE_SCALE, "floor2"));
-            AddSprite("floor3", tiles.CutSprite(5, 0, TEXTURE_SCALE, "floor3"));
+            
+
+            AddSprite("bricks_1", tiles.CutSprite(0, 0, TEXTURE_SCALE, "bricks_1"));
+            AddSprite("bricks_2", tiles.CutSprite(1, 0, TEXTURE_SCALE, "bricks_2"));
+            AddSprite("bricks_3", tiles.CutSprite(2, 0, TEXTURE_SCALE, "bricks_3"));
+            AddSprite("rocks_1", tiles.CutSprite(3, 0, TEXTURE_SCALE, "rocks_1"));
+            AddSprite("rocks_2", tiles.CutSprite(4, 0, TEXTURE_SCALE, "rocks_2"));
+            AddSprite("rocks_3", tiles.CutSprite(5, 0, TEXTURE_SCALE, "rocks_3"));
+
+            AddSprite("wall_hor", tiles.CutSprite(7, 2, TEXTURE_SCALE, "wall_hor"));
+            AddSprite("wall_ver", tiles.CutSprite(0, 3, TEXTURE_SCALE, "wall_ver"));
+            AddSprite("wall_ver_end", tiles.CutSprite(1, 3, TEXTURE_SCALE, "wall_ver_end"));
+            AddSprite("wall_top_rig", tiles.CutSprite(2, 3, TEXTURE_SCALE, "wall_top_rig"));
+            AddSprite("wall_top_lef", tiles.CutSprite(3, 3, TEXTURE_SCALE, "wall_top_lef"));
+            AddSprite("wall_bot_rig", tiles.CutSprite(4, 3, TEXTURE_SCALE, "wall_bot_rig"));
+            AddSprite("wall_bot_lef", tiles.CutSprite(5, 3, TEXTURE_SCALE, "wall_bot_lef"));
+            AddSprite("wall_ver_rig", tiles.CutSprite(6, 3, TEXTURE_SCALE, "wall_ver_rig"));
+            AddSprite("wall_ver_lef", tiles.CutSprite(7, 3, TEXTURE_SCALE, "wall_ver_lef"));
+            AddSprite("wall_hor_bot", tiles.CutSprite(0, 4, TEXTURE_SCALE, "wall_hor_bot"));
+            AddSprite("wall_hor_top", tiles.CutSprite(1, 4, TEXTURE_SCALE, "wall_hor_top"));
+            AddSprite("wall_all", tiles.CutSprite(2, 4, TEXTURE_SCALE, "wall_all"));
+
+            AddSprite("floor_dot", ui.CutSprite(2, 1, TEXTURE_SCALE, "floor_dot"));
 
             AddSprite("hero", creatures.CutSprite(0, 0, TEXTURE_SCALE, "hero"));
             AddSprite("troll", creatures.CutSprite(7, 5, TEXTURE_SCALE, "troll"));
@@ -166,11 +185,28 @@ namespace KeyKeeper.Content
 
         private static void LoadTileTypes()
         {
-            AddTileType("wall", new TileType("wall", GetSprite("wall"), Color.Beige, Color.Black, true, false));
-            AddTileType("floor", new TileType("floor", GetSprite("floor"), Color.Beige, Color.Black, false, true));
-            AddTileType("floor2", new TileType("floor2", GetSprite("floor2"), Color.Beige, Color.Black, false, true));
-            AddTileType("floor3", new TileType("floor3", GetSprite("floor3"), Color.Beige, Color.Black, false, true));
+            AddTileType("bricks_1", new TileType("bricks_1", GetSprite("bricks_1"), Color.White, Color.Black, false, false));
+            AddTileType("bricks_2", new TileType("bricks_2", GetSprite("bricks_2"), Color.White, Color.Black, false, false));
+            AddTileType("bricks_3", new TileType("bricks_3", GetSprite("bricks_3"), Color.White, Color.Black, false, false));
+            AddTileType("rocks_1", new TileType("rocks_1", GetSprite("rocks_1"), Color.White, Color.Black, true, false));
+            AddTileType("rocks_2", new TileType("rocks_2", GetSprite("rocks_2"), Color.White, Color.Black, true, false));
+            AddTileType("rocks_3", new TileType("rocks_3", GetSprite("rocks_3"), Color.White, Color.Black, true, false));
 
+            AddTileType("wall_hor", new TileType("wall_hor", GetSprite("wall_hor"), Color.White, Color.Black, true, false));
+            AddTileType("wall_ver", new TileType("wall_ver", GetSprite("wall_ver"), Color.White, Color.Black, true, false));
+            AddTileType("wall_ver_end", new TileType("wall_ver_end", GetSprite("wall_ver_end"), Color.White, Color.Black, true, false));
+            AddTileType("wall_top_rig", new TileType("wall_top_rig", GetSprite("wall_top_rig"), Color.White, Color.Black, true, false));
+            AddTileType("wall_top_lef", new TileType("wall_top_lef", GetSprite("wall_top_lef"), Color.White, Color.Black, true, false));
+            AddTileType("wall_bot_rig", new TileType("wall_bot_rig", GetSprite("wall_bot_rig"), Color.White, Color.Black, true, false));
+            AddTileType("wall_bot_lef", new TileType("wall_bot_lef", GetSprite("wall_bot_lef"), Color.White, Color.Black, true, false));
+            AddTileType("wall_ver_rig", new TileType("wall_ver_rig", GetSprite("wall_ver_rig"), Color.White, Color.Black, true, false));
+            AddTileType("wall_ver_lef", new TileType("wall_ver_lef", GetSprite("wall_ver_lef"), Color.White, Color.Black, true, false));
+            AddTileType("wall_hor_bot", new TileType("wall_hor_bot", GetSprite("wall_hor_bot"), Color.White, Color.Black, true, false));
+            AddTileType("wall_hor_top", new TileType("wall_hor_top", GetSprite("wall_hor_top"), Color.White, Color.Black, true, false));
+            AddTileType("wall_all", new TileType("wall_all", GetSprite("wall_all"), Color.White, Color.Black, true, false));
+
+            AddTileType("floor_dot", new TileType("floor_dot", GetSprite("floor_dot"), Color.White, Color.Black, false, true));
+            
             AddTileType("stairs_down", new TileType("stairs_down", GetSprite("stairs_down"), Color.Beige, Color.Black, false, true));
             AddTileType("stairs_up", new TileType("stairs_up", GetSprite("stairs_up"), Color.Beige, Color.Black, false, true));
         }
