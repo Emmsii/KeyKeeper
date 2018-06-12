@@ -18,6 +18,7 @@ namespace KeyKeeper.Generators
         protected readonly CellMap _map;
 
         private List<IGeneratorStrategy> _strategies = new List<IGeneratorStrategy>();
+        private List<IGeneratorStrategy> _postValidStrategies = new List<IGeneratorStrategy>();
 
         protected readonly Random _random;
 
@@ -48,6 +49,7 @@ namespace KeyKeeper.Generators
             do
             {
                 Reset();
+
                 foreach(IGeneratorStrategy strategy in _strategies)
                 {
                     Type requiredType = strategy.RequiredStrategy();
@@ -60,6 +62,17 @@ namespace KeyKeeper.Generators
                     strategy.RunStrategy(_map);
                 }
             } while (!IsMapValid());
+
+            foreach(IGeneratorStrategy strategy in _postValidStrategies)
+            {
+                Type requiredType = strategy.RequiredStrategy();
+                if(requiredType != null)
+                {
+                    IGeneratorStrategy required = GetNextCompletedStrategyOfType(requiredType);
+                    strategy.SetRequiredStrategy(required);
+                }
+                strategy.RunStrategy(_map);
+            }
 
             return this;
         }
@@ -122,6 +135,11 @@ namespace KeyKeeper.Generators
         public void AddGeneratorStrategy(IGeneratorStrategy strategy)
         {
             _strategies.Add(strategy);
+        }
+        
+        public void AddPostValidStrategy(IGeneratorStrategy strategy)
+        {
+            _postValidStrategies.Add(strategy);
         }
     }
 

@@ -54,11 +54,11 @@ namespace KeyKeeper.Managers
                     }
                 }
 
-                ActionResult result = action.Perform(creature);
+                ActionResult result = action.Perform(creature, gameResult);
                 while(result.Alternative != null)
                 {
                     action = result.Alternative;
-                    result = action.Perform(creature);
+                    result = action.Perform(creature, gameResult);
                 }
 
                 if (result.Succeeded)
@@ -70,7 +70,7 @@ namespace KeyKeeper.Managers
                         CurrentTurn++;
                         if (creature.HasMoved)
                         {
-                            creature.World.ComputeFov(creature.X, creature.Y, creature.Depth, 10, Helpers.FovType.Shadowcast);
+                            creature.World.ComputeFov(creature.X, creature.Y, creature.Depth, 12, Helpers.FovType.Shadowcast);
                         }
                     }
                 }

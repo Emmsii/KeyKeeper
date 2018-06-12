@@ -6,11 +6,13 @@ using KeyKeeper.Managers;
 using System;
 using KeyKeeper.Content;
 using KeyKeeper.Graphics;
+using KeyKeeper.Screen;
 
 namespace KeyKeeper
 {
     public class KeyKeeper : Game
     {
+        public static readonly Color BackgroundColor = new Color(Assets.VeryDarkViolet, 0f);
 
         private const int _widthInTiles = 74;
         private const int _heightInTiles = 46;
@@ -75,6 +77,11 @@ namespace KeyKeeper
                 _showDebugBoxes = !_showDebugBoxes;
             }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.F2) && !_lastState.IsKeyDown(Keys.F2))
+            {
+                LevelScreen.HideFov = !LevelScreen.HideFov;
+            }
+
             _delayedInput.Update(Keyboard.GetState());
             _mouseInput.Update(_graphics.GraphicsDevice.Viewport);
             _gameManager.Update();
@@ -86,7 +93,7 @@ namespace KeyKeeper
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(BackgroundColor);
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
             _gameManager.Draw(_spriteBatch);

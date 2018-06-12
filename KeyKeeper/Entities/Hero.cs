@@ -38,6 +38,8 @@ namespace KeyKeeper.Entities
 
             else if (Controls.WAIT.IsPressed(key)) SetNextAction(new WaitAction());
 
+            else if (Controls.FIRE.IsPressed(key)) SetNextAction(new FireAction(X, Y));
+
             // Moving UP involves moving closer towards level 0. So depth numbers should decrease
             // Moving DOWN involves moving closer to the MAX level. So depth numbers should increase.
             else if (Controls.MOVE_UP.IsPressed(key)) SetNextAction(new MoveAction(0, 0, -1));

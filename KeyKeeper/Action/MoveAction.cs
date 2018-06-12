@@ -1,5 +1,6 @@
 ﻿using fNbt;
 using KeyKeeper.Entities;
+using KeyKeeper.Helpers.Game;
 using KeyKeeper.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace KeyKeeper.Action
             _depth = depth;
         }
 
-        public ActionResult Perform(Creature creature)
+        public ActionResult Perform(Creature creature, GameResult result)
         {
             if (_x == 0 && _y == 0 && _depth == 0) return ActionResult.SUCCESS;
 

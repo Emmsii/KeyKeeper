@@ -1,5 +1,6 @@
 ﻿using KeyKeeper.Action;
 using KeyKeeper.Entities;
+using KeyKeeper.Helpers.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace KeyKeeper.Interfaces
 {
     public interface IAction : INbtSerializable
     {
-        ActionResult Perform(Creature creature);
+        ActionResult Perform(Creature creature, GameResult result);
     }
 }

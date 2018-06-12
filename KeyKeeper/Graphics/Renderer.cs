@@ -21,19 +21,29 @@ namespace KeyKeeper.Graphics
 
         public static void DrawSprite(SpriteBatch batch, Sprite sprite, int x, int y, int offsetX, int offsetY, Color foregroundColor, Color? backgroundColor = null)
         {
-            _destination.X = (x * sprite.Width * sprite.Scale) + offsetY;
+            _destination.X = (x * sprite.Width * sprite.Scale) + offsetX;
             _destination.Y = (y * sprite.Height * sprite.Scale) + offsetY;
             _destination.Width = sprite.Width * sprite.Scale;
             _destination.Height = sprite.Height * sprite.Scale;
 
-            if(backgroundColor != null)
-            {
-                Sprite fillSprite = Assets.GetSprite("fill");
-                batch.Draw(fillSprite.Texture, _destination, fillSprite.Bounds, backgroundColor ?? Color.Black);
-            }
+            //if (backgroundColor != null)
+            //{
+            //    Sprite fillSprite = Assets.GetSprite("fill");
+            //    batch.Draw(fillSprite.Texture, _destination, fillSprite.Bounds, backgroundColor ?? Color.HotPink);
+            //}
 
             batch.Draw(sprite.Texture, _destination, sprite.Bounds, foregroundColor);
         }
+
+        //public static void DrawSpritePrecise(SpriteBatch batch, Sprite sprite, int x, int y, int offsetX, int offsetY, Color foregroundColor, Color? backgroundColor = null)
+        //{
+        //    _destination.X = x + offsetX;
+        //    _destination.Y = y + offsetY;
+        //    _destination.Width = sprite.Width * sprite.Scale;
+        //    _destination.Height = sprite.Height* sprite.Scale;
+
+        //    batch.Draw(sprite.Texture, _destination, sprite.Bounds, foregroundColor);
+        //}
 
         public static void DrawString(SpriteBatch batch, Font font, string text, int x, int y, Color foregroundColor, Color? backgroundColor = null)
         {
@@ -61,7 +71,7 @@ namespace KeyKeeper.Graphics
                 if (backgroundColor != null)
                 {
                     Sprite fillSprite = Assets.GetSprite("fill");
-                    batch.Draw(fillSprite.Texture, _destination, fillSprite.Bounds, backgroundColor ?? Color.Black);
+                    batch.Draw(fillSprite.Texture, _destination, fillSprite.Bounds, backgroundColor ?? KeyKeeper.BackgroundColor);
                 }
 
                 batch.Draw(charSprite.Texture, _destination, charSprite.Bounds, foregroundColor);

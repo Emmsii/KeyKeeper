@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Action\ActionResult.cs" />
+    <Compile Include="Action\FireAction.cs" />
     <Compile Include="Action\MoveAction.cs" />
     <Compile Include="Action\WaitAction.cs" />
     <Compile Include="Content\Assets.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Generators\Strategies\BaseRegionStrategy.cs" />
     <Compile Include="Generators\Strategies\CorridorPlacementStrategy.cs" />
     <Compile Include="Generators\Strategies\DeadEndRemovalStrategy.cs" />
+    <Compile Include="Generators\Strategies\DoorPlacementStrategy.cs" />
     <Compile Include="Generators\Strategies\RegionConnectionStrategy.cs" />
     <Compile Include="Generators\Strategies\RegionCreationStrategy.cs" />
     <Compile Include="Generators\Strategies\StandardRoomStrategy.cs" />
@@ -73,9 +75,12 @@
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\Spritesheet.cs" />
+    <Compile Include="Helpers\ColorHelpers.cs" />
     <Compile Include="Helpers\Dice.cs" />
     <Compile Include="Helpers\Direction.cs" />
     <Compile Include="Helpers\FieldOfView.cs" />
+    <Compile Include="Helpers\Game\EffectResult.cs" />
+    <Compile Include="Helpers\Game\FireEffect.cs" />
     <Compile Include="Helpers\Game\GameEffect.cs" />
     <Compile Include="Helpers\Game\GameEvent.cs" />
     <Compile Include="Helpers\Game\GameResult.cs" />

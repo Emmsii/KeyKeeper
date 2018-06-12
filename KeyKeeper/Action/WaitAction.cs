@@ -1,5 +1,6 @@
 ﻿using fNbt;
 using KeyKeeper.Entities;
+using KeyKeeper.Helpers.Game;
 using KeyKeeper.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace KeyKeeper.Action
         {
         }
 
-        public ActionResult Perform(Creature creature)
+        public ActionResult Perform(Creature creature, GameResult result)
         {
             return ActionResult.SUCCESS;
         }

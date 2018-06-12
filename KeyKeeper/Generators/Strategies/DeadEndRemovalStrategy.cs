@@ -24,16 +24,14 @@ namespace KeyKeeper.Generators.Strategies
         }
 
         private readonly TileType _wallTile;
-        private readonly TileType _fillTile;
         private readonly TileType[] _corridorTiles;
 
         private bool TileIsWall(CellMap map, int x, int y) => _wallTile.Equals(map.GetTileType(x, y));
         private bool TileIsCorridor(CellMap map, int x, int y) => _corridorTiles.Any(t => t.Equals(map.GetTileType(x, y)));
 
-        public DeadEndRemovalStrategy(Random random, TileType wallTile, TileType fillTile, TileType[] corridorTiles) : base(random)
+        public DeadEndRemovalStrategy(Random random, TileType wallTile, TileType[] corridorTiles) : base(random)
         {
             _wallTile = wallTile;
-            _fillTile = fillTile;
             _corridorTiles = corridorTiles;
         }
 
@@ -48,7 +46,7 @@ namespace KeyKeeper.Generators.Strategies
             {
                 return;
             }
-
+            
             List<PointClass> deadEnds = new List<PointClass>();
 
             for (int y = 0; y < map.Height; y++)
@@ -68,15 +66,22 @@ namespace KeyKeeper.Generators.Strategies
                 {
                     PointClass point = deadEnds[j];
                     map.SetTileType(point.X, point.Y, _wallTile);
-                    if (!FindDeadEndNeighbour(map, point))
+                    if (!FindDeadEndNeighbour(map, ref point))
                     {
                         deadEnds.Remove(point);
                     }
+                    else
+                    {
+                        deadEnds[j] = point;
+                    }
+                    
                 }
+
+
             }
         }
 
-        private bool FindDeadEndNeighbour(CellMap map, PointClass deadEnd)
+        private bool FindDeadEndNeighbour(CellMap map, ref PointClass deadEnd)
         {
             foreach (Direction direction in Direction.All)
             {
@@ -84,9 +89,10 @@ namespace KeyKeeper.Generators.Strategies
                 {
                     deadEnd.X = direction.NextX(deadEnd.X);
                     deadEnd.Y = direction.NextY(deadEnd.Y);
-                    return true;
+                    return true; // was true
                 }
             }
+
             return false;
         }
 
@@ -113,15 +119,22 @@ namespace KeyKeeper.Generators.Strategies
 
     }
 
-    class PointClass
+    struct PointClass
     {
+        public static int count = 0;
+
         public int X { get; set; }
         public int Y { get; set; }
+
+        public int ID { get; }
 
         public PointClass(int x, int y)
         {
             X = x;
             Y = y;
+
+
+            ID = count++;
         }
     }
 }

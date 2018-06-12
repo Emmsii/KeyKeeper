@@ -21,7 +21,7 @@ namespace KeyKeeper.Generators.Strategies
         private int _maxRoomSize = DEFAULT_MAX_ROOM_SIZE;
         private int _maxRoomCount = DEFAULT_MAX_ROOM_COUNT;
 
-        private readonly TileType _floorTile;
+        private readonly TileType[] _floorTiles;
 
         public int MinRoomSize {
             get {
@@ -62,16 +62,17 @@ namespace KeyKeeper.Generators.Strategies
         private int GetRandomSize(int bound) => _random.Next(Math.Max(MinRoomSize, bound - Tolerance), Math.Min(MaxRoomCount, bound + Tolerance));
         private int NormalizeSize(int size) => size % 2 != 1 ? _random.NextDouble() >= 0.5 ? --size : ++size : size;
 
-
+        public bool IsPointInRoom(int x, int y) => _rooms.FirstOrDefault(r => r.Contains(x, y)) != null;
+        
         public int Tolerance { get; set; }
         public bool OddSizesOnly { get; set; } = true;
 
         private List<Room> _rooms;
         private int _currentTry;
 
-        public StandardRoomStrategy(Random random, TileType floorTile) : base(random)
+        public StandardRoomStrategy(Random random, TileType[] floorTiles) : base(random)
         {
-            _floorTile = floorTile;
+            _floorTiles = floorTiles;
         }
 
         public override void Reset()
@@ -108,7 +109,7 @@ namespace KeyKeeper.Generators.Strategies
         {
             foreach(Room room in _rooms)
             {
-                room.Fill(map, _floorTile);
+                room.Fill(map, _random, _floorTiles);
             }
         }
 

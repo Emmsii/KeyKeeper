@@ -19,6 +19,7 @@ namespace KeyKeeper.Input
         public static readonly Control SOUTH_WEST = new Control().Bind(Keys.NumPad1).Bind(Keys.Y);
 
         public static readonly Control WAIT = new Control().Bind(Keys.NumPad5).Bind(Keys.OemPeriod);
+        public static readonly Control FIRE = new Control().Bind(Keys.F);
 
         public static readonly Control MOVE_UP = new Control().Bind(Keys.OemPeriod);
         public static readonly Control MOVE_DOWN = new Control().Bind(Keys.OemComma);

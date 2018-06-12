@@ -39,7 +39,7 @@ namespace KeyKeeper.Generators.Strategies
                                                       TileIsWall(map, point.X + 1, point.Y - 1) &&
                                                       TileIsWall(map, point.X - 1, point.Y - 1);
 
-        private TileType RandomCorridorTile => _corridorTiles[_random.Next(_corridorTiles.Length - 1)];
+        private TileType RandomCorridorTile => _corridorTiles[_random.Next(_corridorTiles.Length)];
         
         public CorridorPlacementStrategy(Random random, TileType wallTile, TileType[] corridorTiles) : base(random)
         {

@@ -24,6 +24,7 @@ namespace KeyKeeper.World
 
         public bool InBounds(int x, int y, int depth) => GetLevel(depth).InBounds(x, y);
         public bool IsTransparent(int x, int y, int depth) => GetLevel(depth).GetCell(x, y).IsTransparent;
+        public bool InFov(int xp, int yp, int zp) => InBounds(xp, yp, zp) ? _fov.IsInFov(xp, yp) : false;
 
         public Cell GetCell(int x, int y, int depth) => GetLevel(depth).GetCell(x, y);
         

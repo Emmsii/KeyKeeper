@@ -30,6 +30,17 @@ namespace KeyKeeper.World
             return X < other.X + other.Width && X + Width > other.X && Y < other.Y + other.Height && Y + Height > other.Y;
         }
 
+        public void Fill(CellMap map, Random random, TileType[] tileTypes)
+        {
+            for (int y = Y; y < Y + Height; y++)
+            {
+                for (int x = X; x < X + Width; x++)
+                {
+                    map.SetTileType(x, y, tileTypes[random.Next(tileTypes.Length)]);
+                }
+            }
+        }
+
         public void Fill(CellMap map, TileType tileType)
         {
             for(int y = Y; y < Y + Height; y++)
